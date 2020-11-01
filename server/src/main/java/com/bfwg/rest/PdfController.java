@@ -14,6 +14,11 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -92,7 +97,7 @@ public class PdfController {
 
     private Transaction getTransactionDetails(NodeList pageElements, MutableInt divPointer) {
         Transaction t = new Transaction();
-        String reservedDate = pageElements.item(divPointer.intValue()).getTextContent();
+        LocalDate reservedDate = constructDate(pageElements, divPointer);
         t.setReservedDate(reservedDate);
         divPointer.increment();
 
@@ -115,6 +120,12 @@ public class PdfController {
         }
 
         return t;
+    }
+
+    private LocalDate constructDate(NodeList pageElements, MutableInt divPointer) {
+        String reservedDateString = pageElements.item(divPointer.intValue()).getTextContent();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return LocalDate.parse(reservedDateString, formatter);
     }
 
     private void fillTransactionWithAdditionalField(Transaction t, String additionalField) {

@@ -3,10 +3,11 @@ package com.bfwg.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Data
 public class Transaction implements Serializable {
-    private String reservedDate;
+    private LocalDate reservedDate;
     private String name;
     private String description;
     private String cardSequenceNo;
