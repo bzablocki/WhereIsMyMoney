@@ -142,7 +142,8 @@ public class PdfController {
 
     private Double constructAmount(NodeList pageElements, MutableInt divPointer) {
         String amount = getField(pageElements, divPointer, AMOUNT_MAX_LEFT);
-        amount = amount.replaceAll(",", ".")
+        amount = amount.replaceAll("\\.", "")
+                .replaceAll(",", ".")
                 .replaceAll(" ", "")
                 .replaceAll("\\+", "");
         return Double.parseDouble(amount);
