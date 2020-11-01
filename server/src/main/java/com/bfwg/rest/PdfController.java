@@ -110,14 +110,14 @@ public class PdfController {
 
         while (isAdditionalField(pageElements, divPointer)) {
             String additionalField = getField(pageElements, divPointer, NAME_MAX_LEFT);
-            fillTransationWithAdditionalField(t, additionalField);
+            fillTransactionWithAdditionalField(t, additionalField);
             divPointer.increment();
         }
 
         return t;
     }
 
-    private void fillTransationWithAdditionalField(Transaction t, String additionalField) {
+    private void fillTransactionWithAdditionalField(Transaction t, String additionalField) {
         if (additionalField.startsWith(AdditionalFieldEnum.CARD_SEQ_NB.getStartsWith())) {
             t.setCardSequenceNo(additionalField);
         } else if (additionalField.startsWith(AdditionalFieldEnum.TRANSACTION.getStartsWith())) {
