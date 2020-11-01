@@ -53,3 +53,22 @@
 -- INSERT INTO user_authority (user_id, authority_id) VALUES (2, 1);
 -- INSERT INTO user_authority (user_id, authority_id) VALUES (2, 2);
 -- INSERT INTO user_authority (user_id, authority_id) VALUES (3, 1);
+
+-- DROP TABLE transactions;
+CREATE TABLE IF NOT EXISTS transactions (
+        id serial PRIMARY KEY UNIQUE NOT NULL,
+        user_id bigint NOT NULL,
+        reserved_date date NOT NULL,
+        name VARCHAR(255),
+        description  VARCHAR(255),
+        cardSequenceNo  VARCHAR(255),
+        transactionField  VARCHAR(255),
+        iban  VARCHAR(255),
+        reference  VARCHAR(255),
+        dateTime  VARCHAR(255),
+        valueDate  VARCHAR(255),
+        type  VARCHAR(255),
+        amount NUMERIC(9,2),
+		is_reservation bool,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+    )
