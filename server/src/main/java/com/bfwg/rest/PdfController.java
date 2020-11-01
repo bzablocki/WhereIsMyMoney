@@ -33,16 +33,17 @@ public class PdfController {
     }
 
     public List<Transaction> getTransactionsList() {
-        try {
-            PDDocument pdfDocument = getPdfDocument();
+        List<Transaction> transactions;
+        try (PDDocument pdfDocument = getPdfDocument()) {
             Document domDocument = getPdfDomTree(pdfDocument);
-            List<Transaction> transactions = getTransactionsListFromDom(domDocument);
-            return transactions;
+            transactions = getTransactionsListFromDom(domDocument);
         } catch (IOException | ParserConfigurationException e) {
             e.printStackTrace();
-//            return error in json
             return null;
         }
+
+        return transactions;
+
     }
 
     private List<Transaction> getTransactionsListFromDom(Document dom) {
