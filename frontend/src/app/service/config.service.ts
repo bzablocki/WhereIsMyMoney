@@ -62,4 +62,11 @@ export class ConfigService {
     return this._signupUrl;
   }
 
+  private _getTransactionsFromPdfUrl = this.apiUrl + '/getTransactionsFromPdf';
+
+  get getTransactionsFromPdfUrl(): string {
+    return this._getTransactionsFromPdfUrl;
+  }
+
+
 }

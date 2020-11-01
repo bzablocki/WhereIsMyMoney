@@ -15,4 +15,8 @@ export class FooService {
     return this.apiService.get(this.config.fooUrl);
   }
 
+  getTransactionsFromPdf() {
+    return this.apiService.get(this.config.getTransactionsFromPdfUrl);
+  }
+
 }

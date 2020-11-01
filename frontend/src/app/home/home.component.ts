@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
   fooResponse = {};
   whoamIResponse = {};
   allUserResponse = {};
+  allTransactionsResponse = {};
 
   constructor(
     private config: ConfigService,
@@ -23,7 +24,14 @@ export class HomeComponent implements OnInit {
   }
 
   makeRequest(path) {
-    if (path === this.config.fooUrl) {
+    if (path === this.config.getTransactionsFromPdfUrl) {
+      this.fooService.getTransactionsFromPdf()
+        .subscribe(res => {
+          this.forgeResonseObj(this.allTransactionsResponse, res, path);
+        }, err => {
+          this.forgeResonseObj(this.allTransactionsResponse, err, path);
+        });
+    }else if (path === this.config.fooUrl) {
       this.fooService.getFoo()
         .subscribe(res => {
           this.forgeResonseObj(this.fooResponse, res, path);

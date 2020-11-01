@@ -1,13 +1,24 @@
 <div class="content" fxLayout="row" fxLayoutAlign="center none">
+<!--  <app-api-card-->
+<!--    (apiClick)="makeRequest($event)"-->
+<!--    [responseObj]="fooResponse"-->
+<!--    apiText="/api/foo"-->
+<!--    content='This is an demo public endpoint which requires no authentication.'-->
+<!--    fxFlex-->
+<!--    imgUrl="assets/image/foo.png"-->
+<!--    subTitle="Public"-->
+<!--    title='"Foo"'-->
+<!--  >-->
+<!--  </app-api-card>-->
   <app-api-card
     (apiClick)="makeRequest($event)"
-    [responseObj]="fooResponse"
-    apiText="/api/foo"
-    content='This is an demo public endpoint which requires no authentication.'
+    [responseObj]="allTransactionsResponse"
+    apiText="/api/getTransactionsFromPdf"
+    content='Get all pdf transactions'
     fxFlex
     imgUrl="assets/image/foo.png"
-    subTitle="Public"
-    title='"Foo"'
+    subTitle=""
+    title='"Get Pdf Transactions"'
   >
   </app-api-card>
 
@@ -35,5 +46,36 @@
     title='"All users"'
   >
   </app-api-card>
+
 </div>
+
+<!--<div class="content" fxLayout="row" fxLayoutAlign="center none">-->
+<!--&lt;!&ndash;  <mat-card>&ndash;&gt;-->
+<!--&lt;!&ndash;    <mat-card-header>&ndash;&gt;-->
+<!--&lt;!&ndash;      Load transactions from PDF&ndash;&gt;-->
+<!--&lt;!&ndash;    </mat-card-header>&ndash;&gt;-->
+<!--&lt;!&ndash;    <mat-card-actions>&ndash;&gt;-->
+<!--&lt;!&ndash;      <button&ndash;&gt;-->
+<!--&lt;!&ndash;        (click)="onPdfLoadClick()"&ndash;&gt;-->
+<!--&lt;!&ndash;        color="primary"&ndash;&gt;-->
+<!--&lt;!&ndash;        mat-raised-button>&ndash;&gt;-->
+<!--&lt;!&ndash;        Load!&ndash;&gt;-->
+<!--&lt;!&ndash;      </button>&ndash;&gt;-->
+<!--&lt;!&ndash;    </mat-card-actions>&ndash;&gt;-->
+<!--&lt;!&ndash;  </mat-card>&ndash;&gt;-->
+
+<!--  <app-api-card-->
+<!--    (apiClick)="makeRequest($event)"-->
+<!--    [responseObj]="allTransactionsResponse"-->
+<!--    apiText="/api/getTransactionsFromPdf"-->
+<!--    class="last"-->
+<!--    content='Get all pdf transactions'-->
+<!--    fxFlex-->
+<!--    imgUrl="assets/image/admin.png"-->
+<!--    subTitle=""-->
+<!--    title='"Get Pdf Transactions"'-->
+<!--  >-->
+<!--  </app-api-card>-->
+<!--</div>-->
+
 <app-github></app-github>

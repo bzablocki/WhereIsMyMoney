@@ -29,3 +29,4 @@ nbdist/
 ### frontend ###
 npm-debug.*
 src/main/resources/static/
+/src/main/resources/*.pdf
