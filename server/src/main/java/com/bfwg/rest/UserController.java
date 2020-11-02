@@ -4,10 +4,8 @@ import com.bfwg.exception.ResourceConflictException;
 import com.bfwg.model.Transaction;
 import com.bfwg.model.User;
 import com.bfwg.model.UserRequest;
+import com.bfwg.service.TransactionService;
 import com.bfwg.service.UserService;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.xerces.dom.ElementImpl;
-import org.fit.pdfdom.PDFDomTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,16 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +36,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class UserController {
 
     private final UserService userService;
+    private final TransactionService transactionService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TransactionService transactionService) {
         this.userService = userService;
+        this.transactionService = transactionService;
     }
 
     @RequestMapping(method = GET, value = "/user/{userId}")
@@ -96,10 +88,15 @@ public class UserController {
     }
 
     @RequestMapping("/getTransactionsFromPdf")
-//    @PreAuthorize("hasRole('USER')") #todo remember to authorize
+    @PreAuthorize("hasRole('USER')")
     public List<Transaction> getTransactionsFromPdf() {
-        PdfController pdfController = new PdfController("server\\src\\main\\resources\\bank_statement.pdf");
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        PdfController pdfController = new PdfController("server\\src\\main\\resources\\bank_statement.pdf");
+        PdfController pdfController = new PdfController(user, "server\\src\\main\\resources\\bank_statement2.pdf");
         List<Transaction> transactionsList = pdfController.getTransactionsList();
+//        this.transactionService.deleteAll(user);
+//        this.transactionService.deleteReserved(user);
+        this.transactionService.saveAll(transactionsList);
 
         return transactionsList;
     }

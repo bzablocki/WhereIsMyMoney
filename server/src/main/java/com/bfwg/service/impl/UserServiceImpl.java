@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public User findById(Long id) throws AccessDeniedException {
+    public User findById(java.lang.Long id) throws AccessDeniedException {
         return userRepository.getOne(id);
     }
 

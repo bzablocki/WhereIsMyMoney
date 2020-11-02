@@ -9,37 +9,40 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "TRANSACTIONS")
+@IdClass(TransactionId.class)
 public class Transaction implements Serializable {
+    @Column(name = "nb", columnDefinition = "serial", insertable = false, updatable = false)
+    private Long nb;
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(name = "reserved_date", columnDefinition = "DATE")
     private LocalDate reservedDate;
+    @Id
     @Column(name = "name")
     private String name;
     @Column(name = "description")
     private String description;
-    @Column(name = "cardSequenceNo")
+    @Column(name = "cardsequenceno")
     private String cardSequenceNo;
-    @Column(name = "transactionField")
+    @Column(name = "transactionfield")
     private String transactionField;
     @Column(name = "iban")
     private String iban;
     @Column(name = "reference")
     private String reference;
-    @Column(name = "dateTime")
+    @Column(name = "datetime")
     private String dateTime;
-    @Column(name = "valueDate")
+    @Column(name = "valuedate")
     private String valueDate;
     @Column(name = "type")
     private String type;
+    @Id
     @Column(name = "amount")
     private Double amount;
     @Column(name = "is_reservation")
     private boolean isReservation = false;
-
-    @Column(name = "user_id")
-    private Long user;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

@@ -3,7 +3,7 @@ app:
 
 jwt:
   header: Authorization
-  expires_in: 600 # 10 minutes
+  expires_in: 60000 # 10 minutes
   secret: queenvictoria
   cookie: AUTH-TOKEN
 
@@ -61,7 +61,9 @@ logging:
 
 
 spring:
-#  jpa:
+  jpa:
+    show-sql: true
+  #  jpa:
 #    hibernate:
       # possible values: validate | update | create | create-drop
 #      ddl-auto: create-drop

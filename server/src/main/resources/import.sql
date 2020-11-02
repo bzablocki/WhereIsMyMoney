@@ -55,20 +55,24 @@
 -- INSERT INTO user_authority (user_id, authority_id) VALUES (3, 1);
 
 -- DROP TABLE transactions;
-CREATE TABLE IF NOT EXISTS transactions (
-        id serial PRIMARY KEY UNIQUE NOT NULL,
-        user_id bigint NOT NULL,
-        reserved_date date NOT NULL,
-        name VARCHAR(255),
-        description  VARCHAR(255),
-        cardSequenceNo  VARCHAR(255),
-        transactionField  VARCHAR(255),
-        iban  VARCHAR(255),
-        reference  VARCHAR(255),
-        dateTime  VARCHAR(255),
-        valueDate  VARCHAR(255),
-        type  VARCHAR(255),
-        amount NUMERIC(9,2),
-		is_reservation bool,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
-    )
+-- CREATE TABLE IF NOT EXISTS transactions (
+--         id serial PRIMARY KEY UNIQUE NOT NULL,
+--         user_id bigint NOT NULL,
+--         reserved_date date NOT NULL,
+--         name VARCHAR(255),
+--         description  VARCHAR(255),
+--         cardSequenceNo  VARCHAR(255),
+--         transactionField  VARCHAR(255),
+--         iban  VARCHAR(255),
+--         reference  VARCHAR(255),
+--         dateTime  VARCHAR(255),
+--         valueDate  VARCHAR(255),
+--         type  VARCHAR(255),
+--         amount NUMERIC(9,2),
+-- 		is_reservation bool,
+--         FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+--     )
+--
+--     SELECT (user_name) from USER
+
+-- INSERT INTO transactions (id, user_id, reserved_date, name) VALUES (null, 3, '2020-10-26', 'Name: Malwina Anna Witczak ')

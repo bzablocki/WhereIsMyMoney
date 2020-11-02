@@ -1,6 +1,7 @@
 package com.bfwg.rest;
 
 import com.bfwg.model.Transaction;
+import com.bfwg.model.User;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -14,9 +15,6 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,7 +23,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PdfController {
-    String pdfPath;
+    private String pdfPath;
+    private User user;
     private static final double DATE_START_LEFT = 52.44;
     private static final double DETAILS_START_LEFT_MIN = 113.;
     private static final double DETAILS_START_LEFT_MAX = 114.;
@@ -33,7 +32,8 @@ public class PdfController {
     private static final double TRANSACTION_TYPE_MAX_LEFT = 440.;
     private static final double AMOUNT_MAX_LEFT = 550.;
 
-    public PdfController(String pdfPath) {
+    public PdfController(User user, String pdfPath) {
+        this.user = user;
         this.pdfPath = pdfPath;
     }
 
@@ -97,6 +97,8 @@ public class PdfController {
 
     private Transaction getTransactionDetails(NodeList pageElements, MutableInt divPointer) {
         Transaction t = new Transaction();
+        t.setUser(this.user);
+
         LocalDate reservedDate = constructDate(pageElements, divPointer);
         t.setReservedDate(reservedDate);
         divPointer.increment();
