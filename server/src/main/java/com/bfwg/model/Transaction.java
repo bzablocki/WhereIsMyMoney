@@ -38,8 +38,8 @@ public class Transaction implements Serializable {
     @Id
     @Column(name = "amount")
     private Double amount;
-    @Column(name = "is_reservation")
-    private boolean isReservation = false;
+    @Column(name = "reservation")
+    private boolean reservation = false;
     @Id
     @ManyToOne
     @JoinColumn(name = "user_id")

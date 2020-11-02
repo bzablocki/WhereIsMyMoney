@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +94,8 @@ public class UserController {
         PdfController pdfController = new PdfController(user, "server\\src\\main\\resources\\bank_statement2.pdf");
         List<Transaction> transactionsList = pdfController.getTransactionsList();
 //        this.transactionService.deleteAll(user);
-//        this.transactionService.deleteReserved(user);
+        transactionsList.get(1).setReservation(true);
+        this.transactionService.deleteReserved(user);
         this.transactionService.saveAll(transactionsList);
 
         return transactionsList;

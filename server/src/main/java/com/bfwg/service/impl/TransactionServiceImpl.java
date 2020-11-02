@@ -38,11 +38,10 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteAll(User user) {
         List<Transaction> transactions = transactionRepository.findByUser(user);
         transactionRepository.deleteAll(transactions);
-//        transactionRepository.deleteTransactionsByUser(user);
     }
 
     @Override
     public void deleteReserved(User user) {
-//        transactionRepository.deleteTransactionsByReservationTrueAndUser(user);
+        transactionRepository.deleteByReservationTrueAndUser(user);
     }
 }
