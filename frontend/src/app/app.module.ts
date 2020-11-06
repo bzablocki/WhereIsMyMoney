@@ -10,13 +10,13 @@ import {LoginComponent} from './login';
 import {AdminGuard, GuestGuard, LoginGuard} from './guard';
 import {NotFoundComponent} from './not-found';
 import {AccountMenuComponent} from './component/header/account-menu/account-menu.component';
-import {ApiCardComponent, FooterComponent, GithubComponent, HeaderComponent} from './component';
+import {ApiCardComponent, FooterComponent, GithubComponent, HeaderComponent, TableExpandableRows} from './component';
 
 import {ApiService, AuthService, ConfigService, FooService, UserService} from './service';
 import {ChangePasswordComponent} from './change-password/change-password.component';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {AdminComponent} from './admin/admin.component';
-import {SignupComponent} from './signup/signup.component';
+import {SignupComponent} from './signup';
 import {AngularMaterialModule} from './angular-material/angular-material.module';
 import {MatIconRegistry} from '@angular/material/icon';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -35,7 +35,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     ChangePasswordComponent,
     ForbiddenComponent,
     AdminComponent,
-    SignupComponent
+    SignupComponent,
+    TableExpandableRows
   ],
   imports: [
     BrowserAnimationsModule,
