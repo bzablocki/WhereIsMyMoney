@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {HomeComponent} from './home.component';
-import {ApiCardComponent, GithubComponent, TableExpandableRows} from '../component';
+import {ApiCardComponent, GithubComponent, TableExpandableRowsComponent} from '../component';
 import {MockApiService} from '../service/mocks/api.service.mock';
 
 

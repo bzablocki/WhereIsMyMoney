@@ -2,14 +2,19 @@
 
   <div class="content" fxLayout="row" fxLayoutAlign="center none">
     <!--  <div class="mat-app-background basic-container">-->
-    <app-table-expandable-rows>loading2</app-table-expandable-rows>
+    <app-table-expandable-rows
+      [dataSource]="allTransactionsResponse"
+      fxFlex
+    >
+      loading2
+    </app-table-expandable-rows>
     <!--  </div>-->
   </div>
   <div class="content" fxLayout="row" fxLayoutAlign="center space-around">
 
     <app-api-card
       (apiClick)="makeRequest($event)"
-      [responseObj]="allTransactionsResponse"
+      [responseObj]="allTransactionsResponseDummy"
       apiText="/api/getTransactionsFromPdf"
       content='Get all pdf transactions'
       fxFlex

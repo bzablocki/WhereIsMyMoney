@@ -3,7 +3,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppComponent} from './app.component';
 import {MockApiService} from './service/mocks/api.service.mock';
-import {ApiCardComponent, FooterComponent, GithubComponent, HeaderComponent, TableExpandableRows} from './component';
+import {ApiCardComponent, FooterComponent, GithubComponent, HeaderComponent, TableExpandableRowsComponent} from './component';
 
 
 import {ApiService, AuthService, ConfigService, FooService, UserService} from './service';
@@ -38,7 +38,7 @@ describe('AppComponent', () => {
         ForbiddenComponent,
         AdminComponent,
         SignupComponent,
-        TableExpandableRows
+        TableExpandableRowsComponent
       ],
       imports: [
         AngularMaterialModule,

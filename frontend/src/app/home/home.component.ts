@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ConfigService, FooService, UserService} from '../service';
+import {TransactionElem} from '../component/table-expandable';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,8 @@ export class HomeComponent implements OnInit {
   fooResponse = {};
   whoamIResponse = {};
   allUserResponse = {};
-  allTransactionsResponse = {};
+  allTransactionsResponseDummy = {};
+  allTransactionsResponse = []
 
   constructor(
     private config: ConfigService,
@@ -21,41 +23,65 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getTransactions();
+  }
+
+  getTransactions() {
+    this.fooService.getTransactionsFromPdf()
+      .subscribe(res => {
+        this.transactionResponseObj(res);
+      }, err => {
+        this.transactionResponseObj(err);
+      });
+
   }
 
   makeRequest(path) {
     if (path === this.config.getTransactionsFromPdfUrl) {
       this.fooService.getTransactionsFromPdf()
         .subscribe(res => {
-          this.forgeResonseObj(this.allTransactionsResponse, res, path);
+          this.forgeResponseObj(this.allTransactionsResponseDummy, res, path);
         }, err => {
-          this.forgeResonseObj(this.allTransactionsResponse, err, path);
+          this.forgeResponseObj(this.allTransactionsResponseDummy, err, path);
         });
-    }else if (path === this.config.fooUrl) {
+    } else if (path === this.config.fooUrl) {
       this.fooService.getFoo()
         .subscribe(res => {
-          this.forgeResonseObj(this.fooResponse, res, path);
+          this.forgeResponseObj(this.fooResponse, res, path);
         }, err => {
-          this.forgeResonseObj(this.fooResponse, err, path);
+          this.forgeResponseObj(this.fooResponse, err, path);
         });
     } else if (path === this.config.whoamiUrl) {
       this.userService.getMyInfo()
         .subscribe(res => {
-          this.forgeResonseObj(this.whoamIResponse, res, path);
+          this.forgeResponseObj(this.whoamIResponse, res, path);
         }, err => {
-          this.forgeResonseObj(this.whoamIResponse, err, path);
+          this.forgeResponseObj(this.whoamIResponse, err, path);
         });
     } else {
       this.userService.getAll()
         .subscribe(res => {
-          this.forgeResonseObj(this.allUserResponse, res, path);
+          this.forgeResponseObj(this.allUserResponse, res, path);
         }, err => {
-          this.forgeResonseObj(this.allUserResponse, err, path);
+          this.forgeResponseObj(this.allUserResponse, err, path);
         });
     }
   }
 
-  forgeResonseObj(obj, res, path) {
+  transactionResponseObj(res) {
+    // const elem: TransactionElem = {
+    //   name: 'My Element',
+    //   description: 'This is my testing element',
+    //   position: 1,
+    //   symbol: 'ME',
+    //   weight: 1.23
+    // };
+
+    console.log(res)
+    this.allTransactionsResponse = res
+  }
+
+  forgeResponseObj(obj, res, path) {
     obj.path = path;
     obj.method = 'GET';
     if (res.ok === false) {
@@ -73,5 +99,12 @@ export class HomeComponent implements OnInit {
       obj.body = JSON.stringify(res, null, 2);
     }
   }
+
+
+  // ngOnChanges(changes: SimpleChanges): void {
+  //
+  //   console.log(changes)
+  // }
+
 
 }
