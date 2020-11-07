@@ -10,7 +10,7 @@ import {LoginComponent} from './login';
 import {AdminGuard, GuestGuard, LoginGuard} from './guard';
 import {NotFoundComponent} from './not-found';
 import {AccountMenuComponent} from './component/header/account-menu/account-menu.component';
-import {ApiCardComponent, FooterComponent, GithubComponent, HeaderComponent, TableExpandableRowsComponent} from './component';
+import {ApiCardComponent, FooterComponent, GithubComponent, HeaderComponent, TableExpandableRowsComponent, FileUploadComponent} from './component';
 
 import {ApiService, AuthService, ConfigService, FooService, UserService} from './service';
 import {ChangePasswordComponent} from './change-password/change-password.component';
@@ -36,7 +36,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     ForbiddenComponent,
     AdminComponent,
     SignupComponent,
-    TableExpandableRowsComponent
+    TableExpandableRowsComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserAnimationsModule,

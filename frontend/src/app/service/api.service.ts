@@ -54,6 +54,18 @@ export class ApiService {
     return this.request(path, body, RequestMethod.Delete);
   }
 
+  postFile(fileToUpload: File): Observable<boolean> {
+    const path = '/api/upload-pdf';
+    // const endpoint = 'your-destination-url';
+    const formData: FormData = new FormData();
+    formData.append('fileKey', fileToUpload, fileToUpload.name);
+    return this.post(path, formData);
+    // return this.httpClient
+    //   .post(endpoint, formData, { headers: yourHeadersConfig })
+    //   .map(() => { return true; })
+    //   .catch((e) => this.handleError(e));
+  }
+
   private request(path: string, body: any, method = RequestMethod.Post, custemHeaders?: HttpHeaders): Observable<any> {
     const req = new HttpRequest(method, path, body, {
       headers: custemHeaders || this.headers,
