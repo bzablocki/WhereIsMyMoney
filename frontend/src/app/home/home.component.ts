@@ -23,7 +23,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.initUser()
     this.getTransactions();
   }
 
