@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {serialize} from '../shared/utilities/serialize';
 import {Observable} from 'rxjs';
 import {catchError, filter, map} from 'rxjs/operators';
+import {ConfigService} from "./config.service";
 
 export enum RequestMethod {
   Get = 'GET',
@@ -24,7 +25,7 @@ export class ApiService {
     'Content-Type': 'application/json'
   });
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private config: ConfigService) {
   }
 
   get(path: string, args?: any): Observable<any> {
@@ -55,11 +56,16 @@ export class ApiService {
   }
 
   postFile(fileToUpload: File): Observable<boolean> {
-    const path = '/api/upload-pdf';
+    const path = this.config.uploadPdfUrl;
     // const endpoint = 'your-destination-url';
     const formData: FormData = new FormData();
-    formData.append('fileKey', fileToUpload, fileToUpload.name);
-    return this.post(path, formData);
+    formData.append('file', fileToUpload, fileToUpload.name);
+    const headers = new HttpHeaders({
+      enctype:  'multipart/form-data',
+      'Content-Type': false
+    });
+
+    return this.post(path, formData, headers);
     // return this.httpClient
     //   .post(endpoint, formData, { headers: yourHeadersConfig })
     //   .map(() => { return true; })

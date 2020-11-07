@@ -68,5 +68,10 @@ export class ConfigService {
     return this._getTransactionsFromPdfUrl;
   }
 
+  private _uploadPdfUrl = this.apiUrl + '/api/upload-pdf';
+  get uploadPdfUrl(): string {
+    return this._uploadPdfUrl;
+  }
+
 
 }
