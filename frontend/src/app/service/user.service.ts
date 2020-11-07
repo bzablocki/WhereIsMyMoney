@@ -17,6 +17,7 @@ export class UserService {
   }
 
   initUser() {
+    console.log('Running initUser');
     const promise = this.apiService.get(this.config.refreshTokenUrl).toPromise()
       .then(res => {
         if (res.access_token !== null) {

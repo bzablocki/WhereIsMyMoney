@@ -3,7 +3,12 @@
        class="mat-elevation-z8">
   <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+    <td mat-cell *matCellDef="let element">
+<!--      {{ column == 'amount' ? (element[column] | number:'1.2-2') : element[column] }}-->
+      <ng-template [ngIf]="column == 'amount' && element[column] >= 0">+ {{ (element[column] | number:'1.2-2') }}</ng-template>
+      <ng-template [ngIf]="column == 'amount' && element[column] < 0"> {{ (element[column] | number:'1.2-2') }}</ng-template>
+      <ng-template [ngIf]="column != 'amount'">{{ element[column] }}</ng-template>
+    </td>
   </ng-container>
 
   <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
@@ -11,12 +16,12 @@
     <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
       <div class="example-element-detail"
            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-<!--        <div class="example-element-diagram">-->
-<!--          <div class="example-element-position"> {{element.position}} </div>-->
-<!--          <div class="example-element-symbol"> {{element.symbol}} </div>-->
-<!--          <div class="example-element-name"> {{element.name}} </div>-->
-<!--          <div class="example-element-weight"> {{element.weight}} </div>-->
-<!--        </div>-->
+        <!--        <div class="example-element-diagram">-->
+        <!--          <div class="example-element-position"> {{element.position}} </div>-->
+        <!--          <div class="example-element-symbol"> {{element.symbol}} </div>-->
+        <!--          <div class="example-element-name"> {{element.name}} </div>-->
+        <!--          <div class="example-element-weight"> {{element.weight}} </div>-->
+        <!--        </div>-->
         <div class="example-element-description">
           <p> {{element.dateTime}}</p>
           <p> {{element.transactionField}}</p>

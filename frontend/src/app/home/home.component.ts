@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userService.initUser()
     this.getTransactions();
   }
 
@@ -76,9 +77,12 @@ export class HomeComponent implements OnInit {
     //   symbol: 'ME',
     //   weight: 1.23
     // };
-
-    console.log(res)
-    this.allTransactionsResponse = res
+    if (res.ok === false) {
+      this.allTransactionsResponse = []
+    } else {
+      console.log(res);
+      this.allTransactionsResponse = res;
+    }
   }
 
   forgeResponseObj(obj, res, path) {
