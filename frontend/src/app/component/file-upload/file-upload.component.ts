@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService, UserService} from '../../service';
+import {FileUploadModule} from 'primeng/fileupload';
 
 @Component({
   selector: 'app-file-upload',
@@ -23,13 +24,16 @@ export class FileUploadComponent implements OnInit {
     this.fileToUpload = files.item(0);
   }
 
-  uploadFileToActivity() {
-    this.apiService.postFile(this.fileToUpload).subscribe(data => {
+  uploadFileToActivity(event, fileUpload) {
+    // event.files == files to upload
+    console.log(event.files)
+    this.apiService.postFile(event.files[0]).subscribe(data => {
       // do something, if upload success
       console.log('File upload successful')
     }, error => {
       console.log(error);
     });
+    fileUpload.clear();
   }
 
 }

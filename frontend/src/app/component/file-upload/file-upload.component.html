@@ -1,7 +1,8 @@
-<div class="form-group">
-<!--  <label for="file">Choose File</label>-->
-  <input type="file"
-         id="file"
-         (change)="handleFileInput($event.target.files)" />
-  <button (click)="uploadFileToActivity()">Upload</button>
-</div>
+<p-fileUpload #fileUpload
+              name="myfile[]"
+              mode="basic"
+              customUpload="true"
+              [auto]="true"
+              (uploadHandler)="uploadFileToActivity($event, fileUpload)"
+              chooseLabel="Upload PDF">
+</p-fileUpload>

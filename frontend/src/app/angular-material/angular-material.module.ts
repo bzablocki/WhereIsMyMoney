@@ -12,6 +12,8 @@ import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatButtonModule} from '@angular/material/button';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatCardModule} from '@angular/material/card';
+import {FileUploadModule} from 'primeng/fileupload';
+import {ButtonModule} from 'primeng/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatStepperModule} from '@angular/material/stepper';
@@ -40,6 +42,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {TabViewModule} from 'primeng/tabview';
 
 @NgModule({
   exports: [
@@ -54,6 +57,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
+    FileUploadModule,
+    ButtonModule,
+    TabViewModule,
     MatCheckboxModule,
     MatChipsModule,
     MatStepperModule,

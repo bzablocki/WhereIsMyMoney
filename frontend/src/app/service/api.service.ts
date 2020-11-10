@@ -57,19 +57,14 @@ export class ApiService {
 
   postFile(fileToUpload: File): Observable<boolean> {
     const path = this.config.uploadPdfUrl;
-    // const endpoint = 'your-destination-url';
     const formData: FormData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
     const headers = new HttpHeaders({
-      enctype:  'multipart/form-data',
-      'Content-Type': false
+      enctype: 'multipart/form-data',
+      // 'Content-Type': false
     });
 
     return this.post(path, formData, headers);
-    // return this.httpClient
-    //   .post(endpoint, formData, { headers: yourHeadersConfig })
-    //   .map(() => { return true; })
-    //   .catch((e) => this.handleError(e));
   }
 
   private request(path: string, body: any, method = RequestMethod.Post, custemHeaders?: HttpHeaders): Observable<any> {
