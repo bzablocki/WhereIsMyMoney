@@ -1,14 +1,11 @@
 package com.bfwg.rest;
 
-import com.bfwg.exception.ResourceConflictException;
 import com.bfwg.model.Transaction;
 import com.bfwg.model.User;
-import com.bfwg.model.UserRequest;
 import com.bfwg.service.FileSystemStorage;
 import com.bfwg.service.TransactionService;
 import com.bfwg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +13,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
@@ -59,7 +51,7 @@ public class TransactionsController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Boolean> deleteTransaction() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        transactionService.deleteAll(user);
+        transactionService.deleteAllByUser(user);
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
 
     }
@@ -88,9 +80,20 @@ public class TransactionsController {
         System.out.println(uploadedFileName + " uploaded.");
 
         PdfController pdfController = new PdfController(user, uploadedFileName);
-        List<Transaction> transactionsList = pdfController.getTransactionsList();
+        List<Transaction> newTransactionsList = pdfController.getTransactionsList();
 
-        transactionService.saveAll(transactionsList);
+        List<Transaction> reservedTransactionsDB = transactionService.getAllReserved(user);
+        List<Long> transactionsToRemove = new ArrayList<>();
+
+        for (Transaction t : reservedTransactionsDB) {
+            Optional<Transaction> matchedNewTransaction = newTransactionsList.stream()
+                    .filter(transaction -> t.getCardSequenceNo() != null && t.getCardSequenceNo().equals(transaction.getCardSequenceNo()))
+                    .findFirst();
+            // todo: update the new transaction with the old fields like "tag" or "category" added by a user
+            matchedNewTransaction.ifPresent(x -> transactionsToRemove.add(t.getNb()));
+        }
+        transactionService.deleteById(transactionsToRemove);
+        transactionService.saveAll(newTransactionsList);
 
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
     }

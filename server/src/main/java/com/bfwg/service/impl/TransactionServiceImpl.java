@@ -31,6 +31,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public List<Transaction> getAllReserved(User user) {
+        return transactionRepository.findByUserAndReservationTrue(user);
+    }
+
+    @Override
     public void saveAll(List<Transaction> transactions) {
         transactionRepository.saveAll(transactions);
     }
@@ -41,7 +46,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void deleteAll(User user) {
+    public void deleteAllByUser(User user) {
         List<Transaction> transactions = transactionRepository.findByUser(user);
         transactionRepository.deleteAll(transactions);
     }
@@ -49,5 +54,16 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void deleteReserved(User user) {
         transactionRepository.deleteByReservationTrueAndUser(user);
+    }
+
+    @Override
+    public void delete(List<Transaction> transactions) {
+        transactionRepository.deleteAll(transactions);
+    }
+
+    @Override
+    public void deleteById(List<Long> ids) {
+//        transactionRepository.deleteByNb(ids);
+        transactionRepository.deleteByNbIn(ids);
     }
 }
