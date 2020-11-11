@@ -52,6 +52,15 @@ public class TransactionsController {
         return transactionService.getAll(user);
     }
 
+    @RequestMapping("/deleteTransactions")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Boolean> deleteTransaction() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        transactionService.deleteAll(user);
+        return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+
+    }
+
     @RequestMapping("/getTransactionsFromPdf")
     @PreAuthorize("hasRole('USER')")
     public List<Transaction> getTransactionsFromPdf() {

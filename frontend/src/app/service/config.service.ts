@@ -73,6 +73,11 @@ export class ConfigService {
   get getTransactionsFromDBUrl(): string {
     return this._getTransactionsFromDBUrl;
   }
+  private _deleteTransactionsUrl = this.apiUrl + '/deleteTransactions';
+
+  get deleteTransactionsUrl(): string {
+    return this._deleteTransactionsUrl;
+  }
 
   private _uploadPdfUrl = this.apiUrl + '/api/upload-pdf';
   get uploadPdfUrl(): string {

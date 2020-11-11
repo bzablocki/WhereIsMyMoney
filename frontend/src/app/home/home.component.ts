@@ -27,6 +27,16 @@ export class HomeComponent implements OnInit {
     this.getTransactions();
   }
 
+  deleteAllTransactions() {
+    this.transactionService.getDeleteTransactions()
+      .subscribe(res => {
+        console.log('All transactions deleted from db.')
+        this.transactionResponseObj([]);
+      }, err => {
+        console.log('Error deleting transactions.')
+      });
+  }
+
   getTransactions() {
     this.transactionService.getTransactionsFromDB()
       .subscribe(res => {

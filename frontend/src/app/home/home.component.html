@@ -10,6 +10,14 @@
     </app-table-expandable-rows>
     <!--  </div>-->
   </div>
+
+  <button
+    (click)="deleteAllTransactions()"
+    color="warn"
+    mat-raised-button>
+    Delete All Transactions
+  </button>
+
   <div class="content" fxLayout="row" fxLayoutAlign="center space-around">
 
     <app-api-card

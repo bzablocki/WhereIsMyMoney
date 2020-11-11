@@ -20,4 +20,8 @@ export class TransactionService {
     return this.apiService.get(this.config.getTransactionsFromDBUrl);
   }
 
+  getDeleteTransactions() {
+    return this.apiService.get(this.config.deleteTransactionsUrl);
+  }
+
 }
