@@ -1,5 +1,11 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
+  <div *ngIf="hasSignedIn()" fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-end center">
+    <app-file-upload
+      (refreshListOfTransactionsEvent)="getTransactions()">
+    </app-file-upload>
+  </div>
+
   <div class="content" fxLayout="row" fxLayoutAlign="center none">
     <!--  <div class="mat-app-background basic-container">-->
     <app-table-expandable-rows

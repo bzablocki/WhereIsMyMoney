@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ApiService, UserService} from '../../service';
 import {FileUploadModule} from 'primeng/fileupload';
 
@@ -9,6 +9,8 @@ import {FileUploadModule} from 'primeng/fileupload';
 })
 export class FileUploadComponent implements OnInit {
   fileToUpload: File = null;
+
+  @Output() refreshListOfTransactionsEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private apiService: ApiService
@@ -28,8 +30,8 @@ export class FileUploadComponent implements OnInit {
     // event.files == files to upload
     console.log(event.files)
     this.apiService.postFile(event.files[0]).subscribe(data => {
-      // do something, if upload success
       console.log('File upload successful')
+      this.refreshListOfTransactionsEvent.next(null);
     }, error => {
       console.log(error);
     });

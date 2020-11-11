@@ -13,6 +13,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class FileSystemStorageImpl implements FileSystemStorage {
@@ -36,11 +40,22 @@ public class FileSystemStorageImpl implements FileSystemStorage {
         }
     }
 
+    private static String getDateTime() {
+        String timePattern = "yyyyMMddHHmmss";
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(timePattern);
+        LocalDateTime now = LocalDateTime.now();
+        return dateTimeFormatter.format(now);
+    }
+
     @Override
     public String saveFile(Long userId, MultipartFile file) {
         // TODO Auto-generated method stub
         try {
             String fileName = file.getOriginalFilename();
+            if (fileName == null) {
+                fileName = "";
+            }
+            fileName = getDateTime() + "_" + fileName;
             Path destination = Paths.get(this.dirLocation.toString(), String.valueOf(userId));
             File dir = new File(destination.toString());
             if (!dir.exists()) {
@@ -49,7 +64,7 @@ public class FileSystemStorageImpl implements FileSystemStorage {
 
             Path dfile = destination.resolve(fileName);
             Files.copy(file.getInputStream(), dfile, StandardCopyOption.REPLACE_EXISTING);
-            return fileName;
+            return dfile.toString();
 
         } catch (Exception e) {
             throw new FileStorageException("Could not upload file");

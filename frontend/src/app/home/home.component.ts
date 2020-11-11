@@ -114,11 +114,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //
-  //   console.log(changes)
-  // }
-
+  hasSignedIn() {
+    return !!this.userService.currentUser;
+  }
 
 }

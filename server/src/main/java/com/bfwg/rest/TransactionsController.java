@@ -39,7 +39,10 @@ public class TransactionsController {
     private final FileSystemStorage fileSystemStorage;
 
     @Autowired
-    public TransactionsController(UserService userService, TransactionService transactionService, FileSystemStorage fileSystemStorage) {
+    public TransactionsController(UserService userService,
+                                  TransactionService transactionService,
+                                  FileSystemStorage fileSystemStorage
+    ) {
         this.userService = userService;
         this.transactionService = transactionService;
         this.fileSystemStorage = fileSystemStorage;
@@ -81,8 +84,14 @@ public class TransactionsController {
     public ResponseEntity<Boolean> uploadSingleFile(@RequestParam("file") MultipartFile file) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println("Uploading pdf...");
-        String upfile = fileSystemStorage.saveFile(user.getId(), file);
-        System.out.println(upfile + " uploaded.");
+        String uploadedFileName = fileSystemStorage.saveFile(user.getId(), file);
+        System.out.println(uploadedFileName + " uploaded.");
+
+        PdfController pdfController = new PdfController(user, uploadedFileName);
+        List<Transaction> transactionsList = pdfController.getTransactionsList();
+
+        transactionService.saveAll(transactionsList);
+
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
     }
 }
