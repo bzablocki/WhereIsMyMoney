@@ -89,35 +89,37 @@ public class UserController {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    @RequestMapping("/getTransactionsFromPdf")
-    @PreAuthorize("hasRole('USER')")
-    public List<Transaction> getTransactionsFromPdf() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        PdfController pdfController = new PdfController("server\\src\\main\\resources\\bank_statement.pdf");
-//        PdfController pdfController = new PdfController(user, "server\\src\\main\\resources\\bank_statement2.pdf");
-//        List<Transaction> transactionsList = pdfController.getTransactionsList();
-//        this.transactionService.deleteAll(user);
-//        transactionsList.get(1).setReservation(true);
-//        this.transactionService.deleteReserved(user);
-//        this.transactionService.saveAll(transactionsList);
 
-        return Collections.emptyList();
-    }
+//    @RequestMapping("/getTransactionsFromPdf")
+//    @PreAuthorize("hasRole('USER')")
+//    public List<Transaction> getTransactionsFromPdf() {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+////        PdfController pdfController = new PdfController("server\\src\\main\\resources\\bank_statement.pdf");
+////        PdfController pdfController = new PdfController(user, "server\\src\\main\\resources\\bank_statement2.pdf");
+////        List<Transaction> transactionsList = pdfController.getTransactionsList();
+////        this.transactionService.deleteAll(user);
+////        transactionsList.get(1).setReservation(true);
+////        this.transactionService.deleteReserved(user);
+////        this.transactionService.saveAll(transactionsList);
+//
+//        return Collections.emptyList();
+//    }
+//
+//    @RequestMapping(path = "/api/upload-pdf", method = POST)
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity<Boolean> uploadSingleFile(@RequestParam("file") MultipartFile file) {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        System.out.println("Uploading pdf...");
+//        String upfile = fileSystemStorage.saveFile(user.getId(), file);
+//        System.out.println(upfile);
+//
+////        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+////                .path("/api/download/")
+////                .path(upfile)
+////                .toUriString();
+//
+////        return ResponseEntity.status(HttpStatus.OK).body(new FileResponse(upfile,fileDownloadUri,"File uploaded with success!"));
+//        return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+//    }
 
-    @RequestMapping(path = "/api/upload-pdf", method = POST)
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Boolean> uploadSingleFile(@RequestParam("file") MultipartFile file) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println("Uploading pdf...");
-        String upfile = fileSystemStorage.saveFile(user.getId(), file);
-        System.out.println(upfile);
-
-//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("/api/download/")
-//                .path(upfile)
-//                .toUriString();
-
-//        return ResponseEntity.status(HttpStatus.OK).body(new FileResponse(upfile,fileDownloadUri,"File uploaded with success!"));
-        return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
-    }
 }

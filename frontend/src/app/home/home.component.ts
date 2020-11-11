@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ConfigService, FooService, UserService} from '../service';
+import {ConfigService, FooService, TransactionService, UserService} from '../service';
 import {TransactionElem} from '../component/table-expandable';
 
 @Component({
@@ -18,7 +18,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private config: ConfigService,
     private fooService: FooService,
-    private userService: UserService
+    private userService: UserService,
+    private transactionService: TransactionService
   ) {
   }
 
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit {
   }
 
   getTransactions() {
-    this.fooService.getTransactionsFromPdf()
+    this.transactionService.getTransactionsFromDB()
       .subscribe(res => {
         this.transactionResponseObj(res);
       }, err => {

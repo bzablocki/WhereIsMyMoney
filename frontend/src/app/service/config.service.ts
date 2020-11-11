@@ -68,6 +68,12 @@ export class ConfigService {
     return this._getTransactionsFromPdfUrl;
   }
 
+  private _getTransactionsFromDBUrl = this.apiUrl + '/getTransactionsFromDB';
+
+  get getTransactionsFromDBUrl(): string {
+    return this._getTransactionsFromDBUrl;
+  }
+
   private _uploadPdfUrl = this.apiUrl + '/api/upload-pdf';
   get uploadPdfUrl(): string {
     return this._uploadPdfUrl;

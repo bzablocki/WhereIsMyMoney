@@ -20,8 +20,8 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public List<TransactionService> getAll(java.lang.Long user_id) {
-        return null;
+    public List<Transaction> getAll(User user) {
+        return transactionRepository.findByUser(user);
     }
 
     @Override

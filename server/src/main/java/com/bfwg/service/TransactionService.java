@@ -6,7 +6,7 @@ import com.bfwg.model.User;
 import java.util.List;
 
 public interface TransactionService {
-    List<TransactionService> getAll(java.lang.Long user_id);
+    List<Transaction> getAll(User user);
     void saveAll(List<Transaction> transactions);
     void save(Transaction transaction);
     void deleteAll(User user);
