@@ -1,6 +1,6 @@
 package com.bfwg;
 
-import com.bfwg.service.impl.FileUploadProperties;
+import com.bfwg.config.FileUploadProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

@@ -1,5 +1,6 @@
 package com.bfwg.service.impl;
 
+import com.bfwg.config.FileUploadProperties;
 import com.bfwg.exception.FileStorageException;
 import com.bfwg.service.FileSystemStorage;
 import org.springframework.beans.factory.annotation.Autowired;

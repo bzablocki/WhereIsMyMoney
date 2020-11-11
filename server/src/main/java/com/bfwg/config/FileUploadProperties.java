@@ -1,4 +1,4 @@
-package com.bfwg.service.impl;
+package com.bfwg.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
