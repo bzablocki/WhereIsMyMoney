@@ -1,12 +1,20 @@
 <div fxLayout="column" fxLayoutGap="20px">
 
-  <div *ngIf="hasSignedIn()" fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-end center">
+  <div *ngIf="hasSignedIn()" fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="20px">
+
+    <button
+      (click)="deleteAllTransactions()"
+      color="warn"
+      mat-raised-button>
+      Delete All Transactions
+    </button>
+
     <app-file-upload
       (refreshListOfTransactionsEvent)="getTransactions()">
     </app-file-upload>
   </div>
 
-  <div class="content" fxLayout="row" fxLayoutAlign="center none">
+  <div *ngIf="hasSignedIn()" class="content" fxLayout="row" fxLayoutAlign="center none">
     <!--  <div class="mat-app-background basic-container">-->
     <app-table-expandable-rows
       [dataSource]="allTransactionsResponse"
@@ -17,12 +25,6 @@
     <!--  </div>-->
   </div>
 
-  <button
-    (click)="deleteAllTransactions()"
-    color="warn"
-    mat-raised-button>
-    Delete All Transactions
-  </button>
 
   <div class="content" fxLayout="row" fxLayoutAlign="center space-around">
 
