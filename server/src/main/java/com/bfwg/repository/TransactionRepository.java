@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, java.lang.Long> {
     List<Transaction> findByUser(User user);
+    List<Transaction> findByUserOrderByReservedDateDesc(User user);
     @Transactional
     void deleteByReservationTrueAndUser(User user);
 }

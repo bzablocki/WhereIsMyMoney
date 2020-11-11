@@ -52,7 +52,7 @@ public class TransactionsController {
     @PreAuthorize("hasRole('USER')")
     public List<Transaction> getTransactionsFromDB() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return transactionService.getAll(user);
+        return transactionService.getAllSorted(user);
     }
 
     @RequestMapping("/deleteTransactions")

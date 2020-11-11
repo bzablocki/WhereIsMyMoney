@@ -24,6 +24,12 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findByUser(user);
     }
 
+
+    @Override
+    public List<Transaction> getAllSorted(User user) {
+        return transactionRepository.findByUserOrderByReservedDateDesc(user);
+    }
+
     @Override
     public void saveAll(List<Transaction> transactions) {
         transactionRepository.saveAll(transactions);
