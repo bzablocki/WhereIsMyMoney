@@ -23,10 +23,15 @@
         <!--          <div class="example-element-weight"> {{element.weight}} </div>-->
         <!--        </div>-->
         <div class="example-element-description">
-          <p> {{element.dateTime}}</p>
-          <p> {{element.transactionField}}</p>
-          <p> {{element.type}}</p>
+          <p>Requests:</p>
+          <ng-container *ngFor="let request of element['requestTransactions']">
+            <p>{{request['name']}} {{request['description']}} - {{request['amount']}} </p>
+          </ng-container>
+          <p>-----</p>
+          <p> {{element['dateTime']}} | {{element['transactionField']}} | {{element['type']}}</p>
         </div>
+
+
       </div>
     </td>
   </ng-container>

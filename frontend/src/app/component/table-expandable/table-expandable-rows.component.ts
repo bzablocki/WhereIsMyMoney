@@ -31,10 +31,11 @@ export interface TransactionElem {
   // position: number;
   // weight: number;
   // symbol: string;
-  // description: string;
+  description: string;
   dateTime: string;
   transactionField: string;
   type: string;
+  requestTransactions: [];
 }
 
 // const ELEMENT_DATA: TransactionElem[] = [
