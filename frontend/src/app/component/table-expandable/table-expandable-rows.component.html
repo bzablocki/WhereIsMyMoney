@@ -1,48 +1,86 @@
 <table mat-table
        [dataSource]="dataSource" multiTemplateDataRows
        class="mat-elevation-z8">
-  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-    <td mat-cell *matCellDef="let element">
-<!--      {{ column == 'amount' ? (element[column] | number:'1.2-2') : element[column] }}-->
-      <ng-template [ngIf]="column == 'amount' && element[column] >= 0">+ {{ (element[column] | number:'1.2-2') }}</ng-template>
-      <ng-template [ngIf]="column == 'amount' && element[column] < 0"> {{ (element[column] | number:'1.2-2') }}</ng-template>
-      <ng-template [ngIf]="column != 'amount'">{{ element[column] }}</ng-template>
-    </td>
-  </ng-container>
+<!--  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">-->
+    <!--    <th mat-header-cell *matHeaderCellDef> {{column}} </th>-->
+    <!--    <td mat-cell *matCellDef="let element">-->
+    <!--      <ng-template *ngIf="column == 'name' && element['description'] == null">-->
+    <!--        2nd: {{ element['name'] }}-->
+    <!--      </ng-template>-->
+    <!--      <ng-template *ngIf="column == 'name' && element['description'] != null">-->
+    <!--        1st: {{ element['name'] + " (" + element['description'] + ")" }}-->
+    <!--      </ng-template>-->
 
-  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-  <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-      <div class="example-element-detail"
-           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-        <!--        <div class="example-element-diagram">-->
-        <!--          <div class="example-element-position"> {{element.position}} </div>-->
-        <!--          <div class="example-element-symbol"> {{element.symbol}} </div>-->
-        <!--          <div class="example-element-name"> {{element.name}} </div>-->
-        <!--          <div class="example-element-weight"> {{element.weight}} </div>-->
-        <!--        </div>-->
-        <div class="example-element-description">
-          <p>Requests:</p>
-          <ng-container *ngFor="let request of element['requestTransactions']">
-            <p>{{request['name']}} {{request['description']}} - {{request['amount']}} </p>
-          </ng-container>
-          <p>-----</p>
-          <p> {{element['dateTime']}} | {{element['transactionField']}} | {{element['type']}}</p>
+    <!--          <ng-template [ngIf]="column == 'amount' && element[column] >= 0">-->
+    <!--            + {{ (element[column] | number:'1.2-2') }}</ng-template>-->
+    <!--          <ng-template [ngIf]="column == 'amount' && element[column] < 0"> {{ (element[column] | number:'1.2-2') }}-->
+    <!--          </ng-template>-->
+    <!--      <ng-template [ngIf]="column != 'amount'">{{ element[column] }}</ng-template>-->
+    <!--    </td>-->
+    <!--  </ng-container>-->
+
+    <ng-container matColumnDef="reservedDate">
+      <th mat-header-cell *matHeaderCellDef> date</th>
+      <td mat-cell *matCellDef="let element">
+        {{element['reservedDate']}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> name</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-template [ngIf]="element['description'] != null">
+          {{ element['name'] + " (" + element['description'] + ")" }}
+        </ng-template>
+        <ng-template [ngIf]="element['description'] == null">
+          {{element['name']}}
+        </ng-template>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef> amount</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-template [ngIf]="element['amount'] >= 0"> + {{ (element['amount'] | number:'1.2-2') }}</ng-template>
+        <ng-template [ngIf]="element['amount'] < 0"> {{ (element['amount'] | number:'1.2-2') }}</ng-template>
+      </td>
+    </ng-container>
+
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+        <div class="example-element-detail"
+             [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <!--        <div class="example-element-diagram">-->
+          <!--          <div class="example-element-position"> {{element.position}} </div>-->
+          <!--          <div class="example-element-symbol"> {{element.symbol}} </div>-->
+          <!--          <div class="example-element-name"> {{element.name}} </div>-->
+          <!--          <div class="example-element-weight"> {{element.weight}} </div>-->
+          <!--        </div>-->
+          <div class="example-element-description">
+            <p>Requests:</p>
+            <ng-container *ngFor="let request of element['requestTransactions']">
+              <p>{{request['name']}} {{request['description']}} - {{request['amount']}} </p>
+            </ng-container>
+            <p>-----</p>
+            <p> {{element['dateTime']}} | Description: {{element['description']}} | {{element['description'] == null}}
+              | {{element['transactionField']}} | {{element['type']}}</p>
+          </div>
+
+
         </div>
+      </td>
+    </ng-container>
 
-
-      </div>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element">
-  </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>
 
 
