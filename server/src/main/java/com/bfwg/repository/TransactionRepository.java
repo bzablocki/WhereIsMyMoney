@@ -16,7 +16,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Transactional
     void deleteByReservationTrueAndUser(User user);
     @Transactional
-    Transaction findFirstByNameLikeAndReservedDateLessThanEqualOrderByReservedDateDesc(String name, LocalDate date);
+    Transaction findFirstByUserAndNameLikeAndReservedDateLessThanEqualOrderByReservedDateDesc(User user, String name, LocalDate date);
     Transaction findFirstByReservedDateAndNameAndAmountAndUser(LocalDate date, String name, Double amount, User user);
 
 }

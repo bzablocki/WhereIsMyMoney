@@ -81,7 +81,11 @@ public class TransactionServiceImpl implements TransactionService {
         if (collectedRequest.getDescription() != null) {
             String namePattern = "%" + collectedRequest.getDescription() + "%";
             LocalDate date = collectedRequest.getReservedDate();
-            return Optional.ofNullable(transactionRepository.findFirstByNameLikeAndReservedDateLessThanEqualOrderByReservedDateDesc(namePattern, date));
+            User user = collectedRequest.getUser();
+            return Optional.ofNullable(transactionRepository.findFirstByUserAndNameLikeAndReservedDateLessThanEqualOrderByReservedDateDesc(
+                    user,
+                    namePattern,
+                    date));
         } else {
             return Optional.empty();
         }
