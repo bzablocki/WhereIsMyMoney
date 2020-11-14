@@ -114,6 +114,7 @@ public class PdfController {
 
         Double transactionAmount = constructAmount(pageElements, divPointer);
         t.setAmount(transactionAmount);
+        t.setAdjustedAmount(transactionAmount);
         divPointer.increment();
 
         while (isAdditionalField(pageElements, divPointer)) {

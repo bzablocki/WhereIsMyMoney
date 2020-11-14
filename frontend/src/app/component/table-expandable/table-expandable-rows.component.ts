@@ -19,7 +19,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 export class TableExpandableRowsComponent {
   @Input() dataSource: TransactionElem[];
 
-  columnsToDisplay = ['reservedDate', 'name', 'amount'];
+  columnsToDisplay = ['reservedDate', 'name', 'amount', 'adjustedAmount'];
   expandedElement: TransactionElem | null;
 
 
@@ -29,7 +29,8 @@ export interface TransactionElem {
   reservedDate: string;
   name: string;
   // position: number;
-  // weight: number;
+  amount: number;
+  adjustedAmount: number;
   // symbol: string;
   description: string;
   dateTime: string;

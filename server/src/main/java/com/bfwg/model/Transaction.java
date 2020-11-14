@@ -40,6 +40,8 @@ public class Transaction implements Serializable {
     private String type;
     @Column(name = "amount")
     private Double amount;
+    @Column(name = "adjusted_amount")
+    private Double adjustedAmount;
     @Column(name = "reservation")
     private boolean reservation = false;
     @Column(name = "request")

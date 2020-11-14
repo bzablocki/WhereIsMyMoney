@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS transactions (
         value_date  VARCHAR(255),
         type  VARCHAR(255),
         amount NUMERIC(9,2),
+		adjusted_amount NUMERIC(9,2),
 		reservation bool default false,
 		request bool default false,
         FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,

@@ -108,17 +108,13 @@ public class TransactionsController {
             if (matchedTransaction.isPresent()){
                 Transaction transaction = matchedTransaction.get();
                 transaction.getRequestTransactions().add(collectedRequest);
+                transaction.setAdjustedAmount(transaction.getAdjustedAmount()+collectedRequest.getAdjustedAmount());
+                collectedRequest.setAdjustedAmount(0.0);
                 transactionService.save(transaction);
+                transactionService.save(collectedRequest);
             }
 
         }
-
-        // alter the name for the sent, to be able to count them as your spending
-        List<Transaction> sentRequests = requestTransactions.stream()
-                .filter(transaction -> transaction.getAmount() <= 0.)
-                .collect(Collectors.toList());
-
-        // todo rename and update
 
     }
 
