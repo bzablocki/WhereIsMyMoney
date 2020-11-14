@@ -10,46 +10,40 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "TRANSACTIONS")
-@IdClass(TransactionId.class)
+//@IdClass(TransactionId.class)
 public class Transaction implements Serializable {
-    @Column(name = "nb", columnDefinition = "serial", insertable = false, updatable = false)
-    private Long nb;
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "reserved_date", columnDefinition = "DATE")
     private LocalDate reservedDate;
-    @Id
     @Column(name = "name")
     private String name;
     @Column(name = "description")
     private String description;
-    @Column(name = "cardsequenceno")
+    @Column(name = "card_sequence_no")
     private String cardSequenceNo;
-    @Column(name = "transactionfield")
+    @Column(name = "transaction_field")
     private String transactionField;
     @Column(name = "iban")
     private String iban;
     @Column(name = "reference")
     private String reference;
-    @Column(name = "datetime")
+    @Column(name = "date_time")
     private String dateTime;
-    @Column(name = "valuedate")
+    @Column(name = "value_date")
     private String valueDate;
     @Column(name = "type")
     private String type;
-    @Id
     @Column(name = "amount")
     private Double amount;
     @Column(name = "reservation")
     private boolean reservation = false;
     @Column(name = "request")
     private boolean request = false;
-    @Id
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @JsonIgnore
-    public TransactionId getId(){
-        return new TransactionId(this.reservedDate, this.name, this.user.getId(), this.amount);
-    }
 }

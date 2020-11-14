@@ -11,11 +11,11 @@ public interface TransactionService {
     List<Transaction> getAllSorted(User user);
     List<Transaction> getAllReserved(User user);
     void saveAll(List<Transaction> transactions);
+    Optional<Transaction> findFirst(Transaction transaction);
     void save(Transaction transaction);
     void deleteAllByUser(User user);
     void deleteReserved(User user);
-    void delete(List<Transaction> transactions);
-    void deleteByNbs(List<Long> ids);
+    void deleteAll(List<Transaction> transactions);
 //    Transaction findFirstByNameLikeAndReservedDateLessThanEqual(String name, LocalDate date);
     Optional<Transaction> findMatchedOriginalTransaction(Transaction collectedRequest);
 }

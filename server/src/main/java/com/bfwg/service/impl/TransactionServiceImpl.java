@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -43,6 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public void saveAll(List<Transaction> transactions) {
         transactionRepository.saveAll(transactions);
+
     }
 
     @Override
@@ -62,14 +62,18 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void delete(List<Transaction> transactions) {
-        transactionRepository.deleteAll(transactions);
+    public Optional<Transaction> findFirst(Transaction t) {
+        return Optional.ofNullable(transactionRepository.findFirstByReservedDateAndNameAndAmountAndUser(
+                t.getReservedDate(),
+                t.getName(),
+                t.getAmount(),
+                t.getUser()
+        ));
     }
 
     @Override
-    public void deleteByNbs(List<Long> nbs) {
-//        transactionRepository.deleteByNb(ids);
-        transactionRepository.deleteByNbIn(nbs);
+    public void deleteAll(List<Transaction> transactions) {
+        transactionRepository.deleteAll(transactions);
     }
 
     @Override

@@ -84,10 +84,38 @@ public class TransactionsController {
         List<Transaction> newTransactionsList = pdfController.getTransactionsList();
 
         processReservedTransactions(user, newTransactionsList);
+        newTransactionsList = removeDuplicates(newTransactionsList);
         transactionService.saveAll(newTransactionsList);
-        processRequestsTransactions(user, newTransactionsList);
+//        processRequestsTransactions(user, newTransactionsList);
 
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+    }
+
+    private List<Transaction> removeDuplicates(List<Transaction> newTransactionsList) {
+        List<Transaction> dbNewTransactions = new ArrayList<>();
+        for (Transaction t : newTransactionsList) {
+            if (isScheduledForUpdate(t) || !transactionService.findFirst(t).isPresent()){
+                dbNewTransactions.add(t);
+            }
+        }
+        return dbNewTransactions;
+    }
+
+    private boolean isScheduledForUpdate(Transaction t) {
+        return t.getId() != null;
+    }
+
+    private void processReservedTransactions(User user, List<Transaction> newTransactionsList) {
+        List<Transaction> reservedTransactionsDB = transactionService.getAllReserved(user);
+
+        for (Transaction t : reservedTransactionsDB) {
+            Optional<Transaction> matchedNewTransaction = newTransactionsList.stream()
+                    .filter(transaction -> t.getCardSequenceNo() != null && t.getCardSequenceNo().equals(transaction.getCardSequenceNo()))
+                    .findFirst();
+            // todo: update the new transaction with the old fields like "tag" or "category" added by a user
+            matchedNewTransaction.ifPresent(mt -> mt.setId(t.getId()));
+        }
+
     }
 
     private void processRequestsTransactions(User user, List<Transaction> newTransactionsList) {
@@ -114,19 +142,5 @@ public class TransactionsController {
 
         // todo rename and update
 
-    }
-
-    private void processReservedTransactions(User user, List<Transaction> newTransactionsList) {
-        List<Transaction> reservedTransactionsDB = transactionService.getAllReserved(user);
-        List<Long> reservedExistingTransactionsToRemove = new ArrayList<>();
-
-        for (Transaction t : reservedTransactionsDB) {
-            Optional<Transaction> matchedNewTransaction = newTransactionsList.stream()
-                    .filter(transaction -> t.getCardSequenceNo() != null && t.getCardSequenceNo().equals(transaction.getCardSequenceNo()))
-                    .findFirst();
-            // todo: update the new transaction with the old fields like "tag" or "category" added by a user
-            matchedNewTransaction.ifPresent(x -> reservedExistingTransactionsToRemove.add(t.getNb()));
-        }
-        transactionService.deleteByNbs(reservedExistingTransactionsToRemove);
     }
 }
