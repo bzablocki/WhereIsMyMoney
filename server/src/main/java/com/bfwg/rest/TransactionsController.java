@@ -104,7 +104,7 @@ public class TransactionsController {
 
         for (Transaction collectedRequest : collectedRequests) {
             Optional<Transaction> matchedTransaction = transactionService.findMatchedOriginalTransaction(collectedRequest);
-            // todo mark collected and matched - add DB entry
+
             if (matchedTransaction.isPresent()){
                 Transaction transaction = matchedTransaction.get();
                 transaction.getRequestTransactions().add(collectedRequest);

@@ -78,8 +78,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Optional<Transaction> findMatchedOriginalTransaction(Transaction collectedRequest) {
-        if (collectedRequest.getDescription() != null && collectedRequest.getDescription().split("Description: ").length > 1) {
-            String namePattern = "%" + collectedRequest.getDescription().split("Description: ")[1] + "%";
+        if (collectedRequest.getDescription() != null) {
+            String namePattern = "%" + collectedRequest.getDescription() + "%";
             LocalDate date = collectedRequest.getReservedDate();
             return Optional.ofNullable(transactionRepository.findFirstByNameLikeAndReservedDateLessThanEqualOrderByReservedDateDesc(namePattern, date));
         } else {

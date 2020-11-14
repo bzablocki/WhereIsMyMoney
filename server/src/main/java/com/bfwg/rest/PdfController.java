@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -132,24 +133,40 @@ public class PdfController {
 
     private void fillTransactionWithAdditionalField(Transaction t, String additionalField) {
         if (additionalField.startsWith(AdditionalFieldEnum.CARD_SEQ_NB.getStartsWith())) {
+            additionalField = cleanAdditionalField(additionalField);
             t.setCardSequenceNo(additionalField);
         } else if (additionalField.startsWith(AdditionalFieldEnum.TRANSACTION.getStartsWith())) {
+            additionalField = cleanAdditionalField(additionalField);
             t.setTransactionField(additionalField);
         } else if (additionalField.startsWith(AdditionalFieldEnum.RESERVATION.getStartsWith())) {
             t.setReservation(true);
         } else if (additionalField.startsWith(AdditionalFieldEnum.IBAN.getStartsWith())) {
+            additionalField = cleanAdditionalField(additionalField);
             t.setIban(additionalField);
         } else if (additionalField.startsWith(AdditionalFieldEnum.VALUE_DATE.getStartsWith())) {
+            additionalField = cleanAdditionalField(additionalField, 2);
             t.setValueDate(additionalField);
         } else if (additionalField.startsWith(AdditionalFieldEnum.DATE_TIME.getStartsWith())) {
+            additionalField = cleanAdditionalField(additionalField);
             t.setDateTime(additionalField);
         } else if (additionalField.startsWith(AdditionalFieldEnum.DESCRIPTION.getStartsWith())) {
+            additionalField = cleanAdditionalField(additionalField);
             t.setDescription(additionalField);
         } else if (additionalField.startsWith(AdditionalFieldEnum.REFERENCE.getStartsWith())) {
+            additionalField = cleanAdditionalField(additionalField);
             t.setReference(additionalField);
             t.setRequest(true);
         }
 
+    }
+
+    private String cleanAdditionalField(String additionalField, int from) {
+        String[] splitField = additionalField.split(" ");
+        return String.join(" ", Arrays.copyOfRange(additionalField.split(" "), from, splitField.length));
+    }
+
+    private String cleanAdditionalField(String additionalField) {
+        return cleanAdditionalField(additionalField, 1);
     }
 
     private boolean isAdditionalField(NodeList pageElements, MutableInt divPointer) {
