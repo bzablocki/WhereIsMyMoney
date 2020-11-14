@@ -9,7 +9,8 @@ public enum AdditionalFieldEnum {
     IBAN("IBAN"),
     REFERENCE("Reference"),
     VALUE_DATE("Value date"),
-    DATE_TIME("Date/time");
+    DATE_TIME("Date/time"),
+    DESCRIPTION("Description");
 
 
     @Getter

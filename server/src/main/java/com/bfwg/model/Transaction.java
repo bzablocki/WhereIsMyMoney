@@ -1,5 +1,6 @@
 package com.bfwg.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -40,9 +41,15 @@ public class Transaction implements Serializable {
     private Double amount;
     @Column(name = "reservation")
     private boolean reservation = false;
+    @Column(name = "request")
+    private boolean request = false;
     @Id
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
+    public TransactionId getId(){
+        return new TransactionId(this.reservedDate, this.name, this.user.getId(), this.amount);
+    }
 }

@@ -143,6 +143,11 @@ public class PdfController {
             t.setValueDate(additionalField);
         } else if (additionalField.startsWith(AdditionalFieldEnum.DATE_TIME.getStartsWith())) {
             t.setDateTime(additionalField);
+        } else if (additionalField.startsWith(AdditionalFieldEnum.DESCRIPTION.getStartsWith())) {
+            t.setDescription(additionalField);
+        } else if (additionalField.startsWith(AdditionalFieldEnum.REFERENCE.getStartsWith())) {
+            t.setReference(additionalField);
+            t.setRequest(true);
         }
 
     }

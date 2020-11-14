@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -82,19 +83,50 @@ public class TransactionsController {
         PdfController pdfController = new PdfController(user, uploadedFileName);
         List<Transaction> newTransactionsList = pdfController.getTransactionsList();
 
+        processReservedTransactions(user, newTransactionsList);
+        transactionService.saveAll(newTransactionsList);
+        processRequestsTransactions(user, newTransactionsList);
+
+        return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+    }
+
+    private void processRequestsTransactions(User user, List<Transaction> newTransactionsList) {
+        List<Transaction> requestTransactions = newTransactionsList.stream()
+                .filter(Transaction::isRequest)
+                .collect(Collectors.toList());
+
+        // find an original transaction for every collectedRequest and
+        // subtract the amount to calculate the real spending
+        List<Transaction> collectedRequests = requestTransactions.stream()
+                .filter(transaction -> transaction.getAmount() > 0.)
+                .collect(Collectors.toList());
+
+        for (Transaction collectedRequest : collectedRequests) {
+            Optional<Transaction> matchedTransaction = transactionService.findMatchedOriginalTransaction(collectedRequest);
+            // todo mark collected and matched - add DB entry
+
+        }
+
+        // alter the name for the sent, to be able to count them as your spending
+        List<Transaction> sentRequests = requestTransactions.stream()
+                .filter(transaction -> transaction.getAmount() <= 0.)
+                .collect(Collectors.toList());
+
+        // todo rename and update
+
+    }
+
+    private void processReservedTransactions(User user, List<Transaction> newTransactionsList) {
         List<Transaction> reservedTransactionsDB = transactionService.getAllReserved(user);
-        List<Long> transactionsToRemove = new ArrayList<>();
+        List<Long> reservedExistingTransactionsToRemove = new ArrayList<>();
 
         for (Transaction t : reservedTransactionsDB) {
             Optional<Transaction> matchedNewTransaction = newTransactionsList.stream()
                     .filter(transaction -> t.getCardSequenceNo() != null && t.getCardSequenceNo().equals(transaction.getCardSequenceNo()))
                     .findFirst();
             // todo: update the new transaction with the old fields like "tag" or "category" added by a user
-            matchedNewTransaction.ifPresent(x -> transactionsToRemove.add(t.getNb()));
+            matchedNewTransaction.ifPresent(x -> reservedExistingTransactionsToRemove.add(t.getNb()));
         }
-        transactionService.deleteById(transactionsToRemove);
-        transactionService.saveAll(newTransactionsList);
-
-        return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+        transactionService.deleteByNbs(reservedExistingTransactionsToRemove);
     }
 }

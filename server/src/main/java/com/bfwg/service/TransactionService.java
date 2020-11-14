@@ -4,6 +4,7 @@ import com.bfwg.model.Transaction;
 import com.bfwg.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TransactionService {
     List<Transaction> getAll(User user);
@@ -14,5 +15,7 @@ public interface TransactionService {
     void deleteAllByUser(User user);
     void deleteReserved(User user);
     void delete(List<Transaction> transactions);
-    void deleteById(List<Long> ids);
+    void deleteByNbs(List<Long> ids);
+//    Transaction findFirstByNameLikeAndReservedDateLessThanEqual(String name, LocalDate date);
+    Optional<Transaction> findMatchedOriginalTransaction(Transaction collectedRequest);
 }

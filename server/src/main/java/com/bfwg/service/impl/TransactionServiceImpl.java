@@ -7,7 +7,11 @@ import com.bfwg.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -36,6 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public void saveAll(List<Transaction> transactions) {
         transactionRepository.saveAll(transactions);
     }
@@ -62,8 +67,22 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void deleteById(List<Long> ids) {
+    public void deleteByNbs(List<Long> nbs) {
 //        transactionRepository.deleteByNb(ids);
-        transactionRepository.deleteByNbIn(ids);
+        transactionRepository.deleteByNbIn(nbs);
     }
+
+    @Override
+    public Optional<Transaction> findMatchedOriginalTransaction(Transaction collectedRequest) {
+        if (collectedRequest.getDescription() != null && collectedRequest.getDescription().split("Description: ").length > 1) {
+            String namePattern = "%" + collectedRequest.getDescription().split("Description: ")[1] + "%";
+            LocalDate date = collectedRequest.getReservedDate();
+            return Optional.ofNullable(transactionRepository.findFirstByNameLikeAndReservedDateLessThanEqualOrderByReservedDateDesc(namePattern, date));
+        } else {
+            return Optional.empty();
+        }
+
+    }
+
+
 }
