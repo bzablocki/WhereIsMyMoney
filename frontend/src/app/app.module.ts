@@ -10,7 +10,14 @@ import {LoginComponent} from './login';
 import {AdminGuard, GuestGuard, LoginGuard} from './guard';
 import {NotFoundComponent} from './not-found';
 import {AccountMenuComponent} from './component/header/account-menu/account-menu.component';
-import {ApiCardComponent, FooterComponent, GithubComponent, HeaderComponent, TableExpandableRowsComponent, FileUploadComponent} from './component';
+import {
+  ApiCardComponent,
+  FileUploadComponent,
+  FooterComponent,
+  GithubComponent,
+  HeaderComponent,
+  TableExpandableRowsComponent
+} from './component';
 
 import {ApiService, AuthService, ConfigService, FooService, TransactionService, UserService} from './service';
 import {ChangePasswordComponent} from './change-password/change-password.component';

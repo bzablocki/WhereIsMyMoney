@@ -1,6 +1,5 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ConfigService, FooService, TransactionService, UserService} from '../service';
-import {TransactionElem} from '../component/table-expandable';
 
 @Component({
   selector: 'app-home',
