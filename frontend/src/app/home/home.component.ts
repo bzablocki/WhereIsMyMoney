@@ -27,6 +27,23 @@ export class HomeComponent implements OnInit {
     this.getTransactions();
   }
 
+  initCategories(){
+    this.fooService.initCategories().subscribe(res => {
+      console.log('All basic categories initialized in db.')
+    }, err => {
+      console.log('Error initializing categories.')
+    });
+  }
+
+  deleteAllCategories(){
+    this.fooService.deleteAllCategories().subscribe(res => {
+      console.log('All categories deleted from db.')
+    }, err => {
+      console.log('Error deleting categories.')
+    });
+
+  }
+
   deleteAllTransactions() {
     this.transactionService.getDeleteTransactions()
       .subscribe(res => {

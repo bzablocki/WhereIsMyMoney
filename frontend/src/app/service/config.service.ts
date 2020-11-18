@@ -68,6 +68,18 @@ export class ConfigService {
     return this._getTransactionsFromPdfUrl;
   }
 
+  private _getDeleteAllCategoriesUrl = this.apiUrl + '/getDeleteAllCategories';
+
+  get getDeleteAllCategoriesUrl(): string {
+    return this._getDeleteAllCategoriesUrl;
+  }
+
+  private _getInitCategoriesUrl = this.apiUrl + '/getInitCategories';
+
+  get getInitCategoriesUrl(): string {
+    return this._getInitCategoriesUrl;
+  }
+
   private _getTransactionsFromDBUrl = this.apiUrl + '/getTransactionsFromDB';
 
   get getTransactionsFromDBUrl(): string {

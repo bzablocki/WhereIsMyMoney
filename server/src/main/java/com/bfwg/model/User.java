@@ -1,11 +1,14 @@
 package com.bfwg.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -36,11 +39,19 @@ public class User implements UserDetails, Serializable {
     private String lastname;
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_pattern",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "pattern_id", referencedColumnName = "id"))
+    private List<Pattern> patterns = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -90,6 +101,17 @@ public class User implements UserDetails, Serializable {
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
+
+//    @JsonIgnore
+    public List<Pattern> getPatterns() {
+        return patterns;
+    }
+
+//    @JsonIgnore
+    public void setPatterns(List<Pattern> patterns) {
+        this.patterns = patterns;
+    }
+
 
     // We can add the below fields in the users table.
     // For now, they are hardcoded.

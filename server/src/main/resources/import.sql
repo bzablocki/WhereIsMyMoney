@@ -78,3 +78,4 @@
 --     SELECT (user_name) from USER
 
 -- INSERT INTO transactions (id, user_id, reserved_date, name) VALUES (null, 3, '2020-10-26', 'Name: Malwina Anna Witczak ')
+

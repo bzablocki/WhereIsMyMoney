@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -52,12 +53,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.getOne(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')") // todo turn this back on
     public List<User> findAll() throws AccessDeniedException {
         return userRepository.findAll();
     }
 
     @Override
+//    @Transactional
+    public User update(User user) {
+        return userRepository.save(user);
+    }
+
     public User save(UserRequest userRequest) {
         User user = new User();
         user.setUsername(userRequest.getUsername());

@@ -19,4 +19,13 @@ export class FooService {
     return this.apiService.get(this.config.getTransactionsFromPdfUrl);
   }
 
+  initCategories() {
+    return this.apiService.get(this.config.getInitCategoriesUrl);
+  }
+
+  deleteAllCategories() {
+    return this.apiService.get(this.config.getDeleteAllCategoriesUrl);
+  }
+
+
 }

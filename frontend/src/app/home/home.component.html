@@ -3,6 +3,21 @@
   <div *ngIf="hasSignedIn()" fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="20px">
 
     <button
+      (click)="deleteAllCategories()"
+      color="warn"
+      mat-raised-button>
+      Delete All Categories
+    </button>
+
+
+    <button
+      (click)="initCategories()"
+      color="primary"
+      mat-raised-button>
+      Init Basic Categories
+    </button>
+
+    <button
       (click)="deleteAllTransactions()"
       color="warn"
       mat-raised-button>

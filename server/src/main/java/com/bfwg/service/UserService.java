@@ -3,6 +3,7 @@ package com.bfwg.service;
 import com.bfwg.model.User;
 import com.bfwg.model.UserRequest;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -18,4 +19,7 @@ public interface UserService {
   List<User> findAll();
 
   User save(UserRequest user);
+
+  User update(User user);
+
 }
