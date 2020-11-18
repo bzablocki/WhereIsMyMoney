@@ -22,4 +22,14 @@ CREATE TABLE IF NOT EXISTS user_pattern (
         FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
         FOREIGN KEY (pattern_id) REFERENCES patterns(id) ON UPDATE CASCADE ON DELETE CASCADE
     )
+	
+DROP TABLE transaction_pattern;
+CREATE TABLE IF NOT EXISTS transaction_pattern (
+        id serial PRIMARY KEY UNIQUE NOT NULL,
+        transaction_id bigint NOT NULL, 
+		pattern_id bigint NOT NULL,
+        
+        FOREIGN KEY (transaction_id) REFERENCES transactions(id) ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (pattern_id) REFERENCES patterns(id) ON UPDATE CASCADE ON DELETE CASCADE
+    )
 

@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
  */
 
 @Service
+@Transactional
 public class UserPatternServiceImpl implements UserPatternService {
 
     private final UserPatternRepository userPatternRepository;

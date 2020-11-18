@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
  * Created by fan.jin on 2016-10-15.
  */
 
+@Transactional
 @Service
 public class PatternServiceImpl implements PatternService {
 
@@ -37,6 +38,7 @@ public class PatternServiceImpl implements PatternService {
     public void save(Pattern pattern) {
         patternRepository.save(pattern);
     }
+
 
     @Override
     public void deleteAll() {

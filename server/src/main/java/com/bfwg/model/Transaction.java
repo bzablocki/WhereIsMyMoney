@@ -2,6 +2,8 @@ package com.bfwg.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -50,10 +52,18 @@ public class Transaction implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "request_transaction",
             joinColumns = @JoinColumn(name = "transaction_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "request_id", referencedColumnName = "id"))
     private List<Transaction> requestTransactions = new ArrayList<>();
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "transaction_pattern",
+            joinColumns = @JoinColumn(name = "transaction_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "pattern_id", referencedColumnName = "id"))
+    private List<Pattern> patterns = new ArrayList<>();
 
 }
