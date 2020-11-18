@@ -37,6 +37,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
+    }
+
+    @Override
 //    @Transactional
     public void deleteAll() {
         categoryRepository.deleteAll();

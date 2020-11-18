@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -60,19 +61,56 @@ public class PublicController {
     public ResponseEntity<Boolean> getInitCategories() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Category c1 = new Category();
-        c1.setName("groceries");
-        categoryService.save(c1);
+        List<Category> existingCategories = categoryService.findAll();
 
-        Pattern p1 = new Pattern();
-        p1.setCategory(c1);
-        p1.setPattern("%Albert%Heijn");
-        patternService.save(p1);
+        Category groceriesCategory = getDBCategory(existingCategories, "groceries");
+        Category sportCategory = getDBCategory(existingCategories, "sport");
+        Category salaryCategory = getDBCategory(existingCategories, "salary");
 
-        user.getPatterns().add(p1);
+        List<Pattern> existingPatterns = patternService.findAll(user);
+        Pattern ahPattern = getDBPattern(existingPatterns, groceriesCategory, "%Albert%Heijn%");
+        Pattern dirkPattern = getDBPattern(existingPatterns, groceriesCategory, "%DIRK%VDBROEK%");
+        Pattern sportPattern = getDBPattern(existingPatterns, sportCategory, "%BOLDER%NEOLIET%");
+        Pattern salaryPattern = getDBPattern(existingPatterns, salaryCategory, "%CYGNIFY%");
+
+        user.getPatterns().add(ahPattern);
+        user.getPatterns().add(dirkPattern);
+        user.getPatterns().add(sportPattern);
+        user.getPatterns().add(salaryPattern);
         userService.update(user);
 
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+    }
+
+    private Pattern getDBPattern(List<Pattern> existingPatterns, Category category, String patternName) {
+        Optional<Pattern> matchedCategoryInDBOpt = existingPatterns.stream()
+                .filter(pattern -> pattern.getPattern().equals(patternName))
+                .findAny();
+
+        Pattern pattern = null;
+        if (!matchedCategoryInDBOpt.isPresent()) {
+            Pattern patternToSave = new Pattern();
+            patternToSave.setPattern(patternName);
+            patternToSave.setCategory(category);
+            patternService.save(patternToSave);
+            pattern = patternToSave;
+        }
+        return pattern;
+    }
+
+    private Category getDBCategory(List<Category> existingCategories, String categoryName) {
+        Optional<Category> matchedCategoryInDBOpt = existingCategories.stream()
+                .filter(category -> category.getName().equals(categoryName))
+                .findAny();
+
+        Category category = null;
+        if (!matchedCategoryInDBOpt.isPresent()) {
+            Category categoryToSave = new Category();
+            categoryToSave.setName(categoryName);
+            categoryService.save(categoryToSave);
+            category = categoryToSave;
+        }
+        return category;
     }
 
 

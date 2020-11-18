@@ -20,8 +20,8 @@ public class Category implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Pattern> patterns = new ArrayList<>();
+//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Pattern> patterns = new ArrayList<>();
 
 
 
