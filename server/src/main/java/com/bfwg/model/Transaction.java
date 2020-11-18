@@ -64,9 +64,9 @@ public class Transaction implements Serializable {
     @LazyCollection(LazyCollectionOption.FALSE)
 //    @ManyToMany(cascade = CascadeType.ALL)
     @ManyToMany()
-    @JoinTable(name = "transaction_pattern",
+    @JoinTable(name = "transaction_category",
             joinColumns = @JoinColumn(name = "transaction_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "pattern_id", referencedColumnName = "id"))
-    private Set<Pattern> patterns = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"))
+    private Set<Category> categories = new HashSet<>();
 
 }

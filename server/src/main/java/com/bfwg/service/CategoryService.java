@@ -11,4 +11,5 @@ public interface CategoryService {
     List<Category> findAll();
     void save(Category category);
     void deleteAll();
+    Category findUnknownCategory();
 }

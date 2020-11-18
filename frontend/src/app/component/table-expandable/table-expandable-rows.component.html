@@ -73,8 +73,8 @@
             </ng-container>
             <p>-----</p>
             <p>Categories:</p>
-            <ng-container *ngFor="let p of element['patterns']">
-              <p>{{p['category']['name']}}</p>
+            <ng-container *ngFor="let p of element['categories']">
+              <p>{{p['name']}}</p>
             </ng-container>
             <p>-----</p>
             <p> {{element['dateTime']}} | Description: {{element['description']}}

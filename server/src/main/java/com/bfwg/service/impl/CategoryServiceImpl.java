@@ -43,8 +43,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-//    @Transactional
     public void deleteAll() {
         categoryRepository.deleteAll();
+    }
+    @Override
+    public Category findUnknownCategory() {
+        return categoryRepository.findFirstByName("unknown");
     }
 }

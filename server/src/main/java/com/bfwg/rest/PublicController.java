@@ -57,8 +57,6 @@ public class PublicController {
     }
 
 
-
-
     @RequestMapping(path = "/getInitCategories", method = GET)
     public ResponseEntity<Boolean> getInitCategories() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -68,15 +66,18 @@ public class PublicController {
         Category groceriesCategory = getDBCategory(existingCategories, "groceries");
         Category sportCategory = getDBCategory(existingCategories, "sport");
         Category salaryCategory = getDBCategory(existingCategories, "salary");
+        Category unknownCategory = getDBCategory(existingCategories, "unknown");
 
         List<Pattern> existingPatterns = patternService.findAll(user);
         Pattern ahPattern = getDBPattern(existingPatterns, groceriesCategory, "%Albert%Heijn%");
         Pattern dirkPattern = getDBPattern(existingPatterns, groceriesCategory, "%DIRK%VDBROEK%");
+//        Pattern dirkPattern2 = getDBPattern(existingPatterns, sportCategory, "%DIRK%VDBROEK%");
         Pattern sportPattern = getDBPattern(existingPatterns, sportCategory, "%BOLDER%NEOLIET%");
         Pattern salaryPattern = getDBPattern(existingPatterns, salaryCategory, "%CYGNIFY%");
 
         user.getPatterns().add(ahPattern);
         user.getPatterns().add(dirkPattern);
+//        user.getPatterns().add(dirkPattern2);
         user.getPatterns().add(sportPattern);
         user.getPatterns().add(salaryPattern);
         userService.update(user);
@@ -85,18 +86,21 @@ public class PublicController {
     }
 
     private Pattern getDBPattern(List<Pattern> existingPatterns, Category category, String patternName) {
-        Optional<Pattern> matchedCategoryInDBOpt = existingPatterns.stream()
-                .filter(pattern -> pattern.getPattern().equals(patternName))
+        Optional<Pattern> matchedPatternInDBOpt = existingPatterns.stream()
+                .filter(pattern -> pattern.getPattern().equals(patternName) && pattern.getCategory().equals(category))
                 .findAny();
 
         Pattern pattern = null;
-        if (!matchedCategoryInDBOpt.isPresent()) {
+        if (!matchedPatternInDBOpt.isPresent()) {
             Pattern patternToSave = new Pattern();
             patternToSave.setPattern(patternName);
             patternToSave.setCategory(category);
             patternService.save(patternToSave);
             pattern = patternToSave;
+        } else {
+            pattern = matchedPatternInDBOpt.get();
         }
+
         return pattern;
     }
 
@@ -111,6 +115,8 @@ public class PublicController {
             categoryToSave.setName(categoryName);
             categoryService.save(categoryToSave);
             category = categoryToSave;
+        } else {
+            category = matchedCategoryInDBOpt.get();
         }
         return category;
     }

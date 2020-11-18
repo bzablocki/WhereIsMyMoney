@@ -4,6 +4,7 @@ import com.bfwg.model.Pattern;
 import com.bfwg.model.Transaction;
 import com.bfwg.model.User;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ public interface TransactionService {
     List<Transaction> getAll(User user);
     List<Transaction> getAllSorted(User user);
     List<Transaction> getAllReserved(User user);
-    void saveAll(List<Transaction> transactions);
+    void saveAll(Collection<Transaction> transactions);
     Optional<Transaction> findFirst(Transaction transaction);
     void save(Transaction transaction);
     void deleteAllByUser(User user);

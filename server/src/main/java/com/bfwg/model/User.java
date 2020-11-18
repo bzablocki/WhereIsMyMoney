@@ -47,7 +47,7 @@ public class User implements UserDetails, Serializable {
     private List<Authority> authorities;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name = "user_pattern",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "pattern_id", referencedColumnName = "id"))

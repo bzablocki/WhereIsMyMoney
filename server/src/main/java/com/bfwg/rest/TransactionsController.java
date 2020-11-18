@@ -1,8 +1,10 @@
 package com.bfwg.rest;
 
+import com.bfwg.model.Category;
 import com.bfwg.model.Pattern;
 import com.bfwg.model.Transaction;
 import com.bfwg.model.User;
+import com.bfwg.service.CategoryService;
 import com.bfwg.service.FileSystemStorage;
 import com.bfwg.service.TransactionService;
 import com.bfwg.service.UserService;
@@ -31,15 +33,18 @@ public class TransactionsController {
 
     private final UserService userService;
     private final TransactionService transactionService;
+    private final CategoryService categoryService;
     private final FileSystemStorage fileSystemStorage;
 
     @Autowired
     public TransactionsController(UserService userService,
                                   TransactionService transactionService,
+                                  CategoryService categoryService,
                                   FileSystemStorage fileSystemStorage
     ) {
         this.userService = userService;
         this.transactionService = transactionService;
+        this.categoryService = categoryService;
         this.fileSystemStorage = fileSystemStorage;
     }
 
@@ -154,6 +159,8 @@ public class TransactionsController {
     public ResponseEntity<Boolean> refreshTransactionToCategoryMapping() {
         // find all patterns for user
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Category unknownCategory = categoryService.findUnknownCategory();
+
         List<Pattern> patterns = user.getPatterns();
 
         // for each pattern, find all transactions where user=user and description like pattern or name like pattern
@@ -161,16 +168,22 @@ public class TransactionsController {
             List<Transaction> transactionsMatchingPattern = transactionService.findByUserAndNameOrDescriptionMatchingPattern(user, p);
             // check if matching already exist
             for (Transaction t : transactionsMatchingPattern) {
-                // if matching exists, dismiss, if not create new matching
-//                boolean matchingExists = t.getPatterns().contains(p);
-                if (!t.getPatterns().contains(p)) {
-                    t.getPatterns().add(p);
-                    System.out.println("Adding pattern #" + p.getId() + " to transaction #" + t.getId()
-                            + ". t.getPatterns().length: " + t.getPatterns().toArray().length);
+                boolean match = t.getCategories().contains(p.getCategory());
+                // if matching exists, dismiss, if not create new matching - done with Set
+                if (!match) {
+                    t.getCategories().remove(unknownCategory);
+                    t.getCategories().add(p.getCategory());
                 }
             }
             transactionService.saveAll(transactionsMatchingPattern);
         }
+
+        List<Transaction> allTransactions = transactionService.getAll(user);
+        Set<Transaction> transactionsWithoutCategory = allTransactions.stream()
+                .filter(transaction -> transaction.getCategories().size() == 0)
+                .collect(Collectors.toSet());
+        transactionsWithoutCategory.forEach(transaction -> transaction.getCategories().add(unknownCategory));
+        transactionService.saveAll(transactionsWithoutCategory);
 
 
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
