@@ -73,6 +73,11 @@ export class ConfigService {
   get getDeleteAllCategoriesUrl(): string {
     return this._getDeleteAllCategoriesUrl;
   }
+  private _refreshTransactionToCategoryMappingUrl = this.apiUrl + '/refreshTransactionToCategoryMapping';
+
+  get refreshTransactionToCategoryMappingUrl(): string {
+    return this._refreshTransactionToCategoryMappingUrl;
+  }
 
   private _getInitCategoriesUrl = this.apiUrl + '/getInitCategories';
 

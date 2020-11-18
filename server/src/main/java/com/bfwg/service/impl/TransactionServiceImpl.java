@@ -1,5 +1,6 @@
 package com.bfwg.service.impl;
 
+import com.bfwg.model.Pattern;
 import com.bfwg.model.Transaction;
 import com.bfwg.model.User;
 import com.bfwg.repository.TransactionRepository;
@@ -76,6 +77,10 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.deleteAll(transactions);
     }
 
+    @Override
+    public List<Transaction> findByUserAndNameOrDescriptionMatchingPattern(User user, Pattern pattern) {
+        return transactionRepository.findAllByUserAndNameLikeOrDescriptionLike(user, pattern.getPattern().toLowerCase());
+    }
     @Override
     public Optional<Transaction> findMatchedOriginalTransaction(Transaction collectedRequest) {
         if (collectedRequest.getDescription() != null) {

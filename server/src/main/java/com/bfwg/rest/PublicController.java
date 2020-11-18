@@ -57,6 +57,8 @@ public class PublicController {
     }
 
 
+
+
     @RequestMapping(path = "/getInitCategories", method = GET)
     public ResponseEntity<Boolean> getInitCategories() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

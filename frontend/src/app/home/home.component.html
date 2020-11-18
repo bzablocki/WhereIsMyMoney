@@ -3,6 +3,13 @@
   <div *ngIf="hasSignedIn()" fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-end center" fxLayoutGap="20px">
 
     <button
+      (click)="refreshTransactionToCategoryMapping()"
+      color="primary"
+      mat-raised-button>
+      Refresh Transaction To Category Mapping
+    </button>
+
+    <button
       (click)="deleteAllCategories()"
       color="warn"
       mat-raised-button>

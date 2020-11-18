@@ -1,5 +1,6 @@
 package com.bfwg.rest;
 
+import com.bfwg.model.Pattern;
 import com.bfwg.model.Transaction;
 import com.bfwg.model.User;
 import com.bfwg.service.FileSystemStorage;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
@@ -87,9 +89,11 @@ public class TransactionsController {
         newTransactionsList = removeDuplicates(newTransactionsList);
         transactionService.saveAll(newTransactionsList);
         linkRequestsToTransactions(newTransactionsList);
+//        linkTransactionsToCategory(newTransactionsList);
 
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
     }
+
 
     private void linkRequestsToTransactions(List<Transaction> newTransactionsList) {
         List<Transaction> requestTransactions = newTransactionsList.stream()
@@ -105,10 +109,10 @@ public class TransactionsController {
         for (Transaction collectedRequest : collectedRequests) {
             Optional<Transaction> matchedTransaction = transactionService.findMatchedOriginalTransaction(collectedRequest);
 
-            if (matchedTransaction.isPresent()){
+            if (matchedTransaction.isPresent()) {
                 Transaction transaction = matchedTransaction.get();
                 transaction.getRequestTransactions().add(collectedRequest);
-                transaction.setAdjustedAmount(transaction.getAdjustedAmount()+collectedRequest.getAdjustedAmount());
+                transaction.setAdjustedAmount(transaction.getAdjustedAmount() + collectedRequest.getAdjustedAmount());
                 collectedRequest.setAdjustedAmount(0.0);
                 transactionService.save(transaction);
                 transactionService.save(collectedRequest);
@@ -121,7 +125,7 @@ public class TransactionsController {
     private List<Transaction> removeDuplicates(List<Transaction> newTransactionsList) {
         List<Transaction> dbNewTransactions = new ArrayList<>();
         for (Transaction t : newTransactionsList) {
-            if (isScheduledForUpdate(t) || !transactionService.findFirst(t).isPresent()){
+            if (isScheduledForUpdate(t) || !transactionService.findFirst(t).isPresent()) {
                 dbNewTransactions.add(t);
             }
         }
@@ -143,5 +147,32 @@ public class TransactionsController {
             matchedNewTransaction.ifPresent(mt -> mt.setId(t.getId()));
         }
 
+    }
+
+
+    @RequestMapping(path = "/refreshTransactionToCategoryMapping", method = GET)
+    public ResponseEntity<Boolean> refreshTransactionToCategoryMapping() {
+        // find all patterns for user
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Pattern> patterns = user.getPatterns();
+
+        // for each pattern, find all transactions where user=user and description like pattern or name like pattern
+        for (Pattern p : patterns) {
+            List<Transaction> transactionsMatchingPattern = transactionService.findByUserAndNameOrDescriptionMatchingPattern(user, p);
+            // check if matching already exist
+            for (Transaction t : transactionsMatchingPattern) {
+                // if matching exists, dismiss, if not create new matching
+//                boolean matchingExists = t.getPatterns().contains(p);
+                if (!t.getPatterns().contains(p)) {
+                    t.getPatterns().add(p);
+                    System.out.println("Adding pattern #" + p.getId() + " to transaction #" + t.getId()
+                            + ". t.getPatterns().length: " + t.getPatterns().toArray().length);
+                }
+            }
+            transactionService.saveAll(transactionsMatchingPattern);
+        }
+
+
+        return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
     }
 }

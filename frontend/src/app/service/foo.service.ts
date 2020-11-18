@@ -26,6 +26,9 @@ export class FooService {
   deleteAllCategories() {
     return this.apiService.get(this.config.getDeleteAllCategoriesUrl);
   }
+  refreshTransactionToCategoryMapping() {
+    return this.apiService.get(this.config.refreshTransactionToCategoryMappingUrl);
+  }
 
 
 }

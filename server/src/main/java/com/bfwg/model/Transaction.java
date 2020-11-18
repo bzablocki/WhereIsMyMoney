@@ -9,7 +9,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -60,10 +62,11 @@ public class Transaction implements Serializable {
     private List<Transaction> requestTransactions = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(cascade = CascadeType.ALL)
+//    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name = "transaction_pattern",
             joinColumns = @JoinColumn(name = "transaction_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "pattern_id", referencedColumnName = "id"))
-    private List<Pattern> patterns = new ArrayList<>();
+    private Set<Pattern> patterns = new HashSet<>();
 
 }

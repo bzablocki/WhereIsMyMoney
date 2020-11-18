@@ -43,6 +43,14 @@ export class HomeComponent implements OnInit {
     });
 
   }
+  refreshTransactionToCategoryMapping(){
+    this.fooService.refreshTransactionToCategoryMapping().subscribe(res => {
+      console.log('All transaction<->patter matching refreshed')
+    }, err => {
+      console.log('Error refreshing transactions.')
+    });
+
+  }
 
   deleteAllTransactions() {
     this.transactionService.getDeleteTransactions()

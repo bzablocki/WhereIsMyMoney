@@ -72,6 +72,11 @@
               <p>{{request['name']}} {{request['description']}} - {{request['amount']}} </p>
             </ng-container>
             <p>-----</p>
+            <p>Categories:</p>
+            <ng-container *ngFor="let p of element['patterns']">
+              <p>{{p['category']['name']}}</p>
+            </ng-container>
+            <p>-----</p>
             <p> {{element['dateTime']}} | Description: {{element['description']}}
               | {{element['transactionField']}} | {{element['type']}}</p>
           </div>
