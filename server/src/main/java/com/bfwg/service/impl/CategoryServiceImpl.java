@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -36,6 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+//    @Transactional
     public void deleteAll() {
         categoryRepository.deleteAll();
     }

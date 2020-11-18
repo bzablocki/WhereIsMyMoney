@@ -6,6 +6,8 @@ import com.bfwg.service.UserPatternService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 /**
  * Created by fan.jin on 2016-10-15.
  */
@@ -26,6 +28,7 @@ public class UserPatternServiceImpl implements UserPatternService {
         userPatternRepository.save(userPattern);
     }
 
+//    @Transactional
     @Override
     public void deleteAll() {
         userPatternRepository.deleteAll();

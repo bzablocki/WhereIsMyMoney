@@ -34,14 +34,18 @@ public class PublicController {
     private final UserService userService;
     private final CategoryService categoryService;
     private final PatternService patternService;
+    private final UserPatternService userPatternService;
 
     @Autowired
     public PublicController(UserService userService,
                             CategoryService categoryService,
-                            PatternService patternService) {
+                            PatternService patternService,
+                            UserPatternService userPatternService
+    ) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.patternService = patternService;
+        this.userPatternService = userPatternService;
     }
 
     @RequestMapping(method = GET, value = "/foo")
@@ -75,7 +79,8 @@ public class PublicController {
     @RequestMapping(path = "/getDeleteAllCategories", method = GET)
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Boolean> getDeleteAllCategories() {
-
+        userPatternService.deleteAll();
+        patternService.deleteAll();
         categoryService.deleteAll();
 
         return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);

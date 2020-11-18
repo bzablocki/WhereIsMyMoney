@@ -2,12 +2,16 @@ package com.bfwg.service.impl;
 
 import com.bfwg.model.Category;
 import com.bfwg.model.Pattern;
+import com.bfwg.model.User;
 import com.bfwg.repository.CategoryRepository;
 import com.bfwg.repository.PatternRepository;
 import com.bfwg.service.CategoryService;
 import com.bfwg.service.PatternService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * Created by fan.jin on 2016-10-15.
@@ -33,4 +37,5 @@ public class PatternServiceImpl implements PatternService {
     public void deleteAll() {
         patternRepository.deleteAll();
     }
+
 }
